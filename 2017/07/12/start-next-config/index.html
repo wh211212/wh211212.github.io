@@ -115,7 +115,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -175,7 +175,7 @@
     
   
 
-  <div class="container sidebar-position-right page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -378,7 +378,19 @@
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-07-12T10:33:33+08:00">
+                2017-07-12
+              </time>
             
           </span>
 
@@ -1020,6 +1032,27 @@ $ git clone http<span class="hljs-variable">s:</span>//github.<span class="hljs-
     <div>
       
         
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/path/to/wechat-reward-image" alt="Shaonbean WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/path/to/alipay-reward-image" alt="Shaonbean Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
 
       
     </div>
@@ -1134,13 +1167,22 @@ $ git clone http<span class="hljs-variable">s:</span>//github.<span class="hljs-
           
 
           
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
 
           
             
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
@@ -1190,20 +1232,20 @@ $ git clone http<span class="hljs-variable">s:</span>//github.<span class="hljs-
               </span>
             
               <span class="links-of-author-item">
-                <a href="http://www.itdevops.me/" target="_blank" title="Website">
+                <a href="https://www.zhihu.com/people/vdevops" target="_blank" title="知乎">
                   
                     <i class="fa fa-fw fa-globe"></i>
                   
-                  Website
+                  知乎
                 </a>
               </span>
             
               <span class="links-of-author-item">
-                <a href="https://yq.aliyun.com/u/vdevops" target="_blank" title="YunXi">
+                <a href="https://yq.aliyun.com/u/vdevops" target="_blank" title="云栖">
                   
                     <i class="fa fa-fw fa-globe"></i>
                   
-                  YunXi
+                  云栖
                 </a>
               </span>
             
@@ -1218,24 +1260,12 @@ $ git clone http<span class="hljs-variable">s:</span>//github.<span class="hljs-
           <div class="links-of-blogroll motion-element links-of-blogroll-inline">
             <div class="links-of-blogroll-title">
               <i class="fa  fa-fw fa-globe"></i>
-              
+              友情链接
             </div>
             <ul class="links-of-blogroll-list">
               
                 <li class="links-of-blogroll-item">
-                  <a href="http://www.baidu.com/" title="百度" target="_blank">百度</a>
-                </li>
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://www.google.com/" title="谷歌" target="_blank">谷歌</a>
-                </li>
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://weibo.com/" title="新浪" target="_blank">新浪</a>
-                </li>
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://www.zhihu.com/" title="知乎" target="_blank">知乎</a>
+                  <a href="http://www.lvoyee.com/" title="lvoyee" target="_blank">lvoyee</a>
                 </li>
               
             </ul>
@@ -1306,6 +1336,10 @@ $ git clone http<span class="hljs-variable">s:</span>//github.<span class="hljs-
   </a>
 </div>
 
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共3.9k字</span>
+</div>
 
         
 
