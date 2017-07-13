@@ -800,7 +800,7 @@ $ git clone http<span class="hljs-variable">s:</span>//github.<span class="hljs-
     <link href="http://itdevops.me/2017/07/12/hexo-next-config/"/>
     <id>http://itdevops.me/2017/07/12/hexo-next-config/</id>
     <published>2017-07-12T02:05:21.000Z</published>
-    <updated>2017-07-12T06:22:27.544Z</updated>
+    <updated>2017-07-13T01:18:53.063Z</updated>
     
     <content type="html"><![CDATA[<h1 id="自定义next主题"><a href="#自定义next主题" class="headerlink" title="自定义next主题"></a>自定义next主题</h1><blockquote>
 <p>参考文档：<a href="http://theme-next.iissnan.com/" target="_blank" rel="external">http://theme-next.iissnan.com/</a><br><a href="http://theme-next.iissnan.com/getting-started.html" target="_blank" rel="external">http://theme-next.iissnan.com/getting-started.html</a></p>
@@ -822,8 +822,12 @@ $ git clone http<span class="hljs-variable">s:</span>//github.<span class="hljs-
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-generator-feed --save</div></pre></td></tr></table></figure>
 <ul>
-<li><a href="http://theme-next.iissnan.com/theme-settings.html" target="_blank" rel="external">http://theme-next.iissnan.com/theme-settings.html</a></li>
+<li><p><a href="http://theme-next.iissnan.com/theme-settings.html" target="_blank" rel="external">http://theme-next.iissnan.com/theme-settings.html</a></p>
+</li>
+<li><p>Hexo之next主题设置首页不显示全文(只显示预览)</p>
+</li>
 </ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">用文本编辑器打开主题配置_config.yml文件，搜索&quot;auto_excerpt&quot;,false --&gt; true</div></pre></td></tr></table></figure>
 ]]></content>
     
     <summary type="html">
