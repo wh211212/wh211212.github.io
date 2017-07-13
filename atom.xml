@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://itdevops.me/"/>
-  <updated>2017-07-12T05:30:27.914Z</updated>
+  <updated>2017-07-13T01:27:03.486Z</updated>
   <id>http://itdevops.me/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://itdevops.me/2017/07/12/win10-hexo-github/"/>
     <id>http://itdevops.me/2017/07/12/win10-hexo-github/</id>
     <published>2017-07-12T05:05:21.000Z</published>
-    <updated>2017-07-12T05:30:27.914Z</updated>
+    <updated>2017-07-13T01:27:03.486Z</updated>
     
     <content type="html"><![CDATA[<h1 id="win10-hexo-github搭建个人博客"><a href="#win10-hexo-github搭建个人博客" class="headerlink" title="win10+hexo+github搭建个人博客"></a>win10+hexo+github搭建个人博客</h1><blockquote>
 <p>参考：<a href="https://hexo.io/，博客用于记录自己的学习工作历程" target="_blank" rel="external">https://hexo.io/，博客用于记录自己的学习工作历程</a></p>
@@ -166,6 +166,8 @@
       &lt;h1 id=&quot;win10-hexo-github搭建个人博客&quot;&gt;&lt;a href=&quot;#win10-hexo-github搭建个人博客&quot; class=&quot;headerlink&quot; title=&quot;win10+hexo+github搭建个人博客&quot;&gt;&lt;/a&gt;win10+hexo+github
     
     </summary>
+    
+      <category term="Hexo" scheme="http://itdevops.me/categories/Hexo/"/>
     
     
       <category term="hexo" scheme="http://itdevops.me/tags/hexo/"/>
@@ -882,7 +884,7 @@ $ git clone http<span class="hljs-variable">s:</span>//github.<span class="hljs-
     <link href="http://itdevops.me/2017/07/11/hello-devops/"/>
     <id>http://itdevops.me/2017/07/11/hello-devops/</id>
     <published>2017-07-11T14:37:46.000Z</published>
-    <updated>2017-07-12T05:38:26.660Z</updated>
+    <updated>2017-07-13T01:27:38.323Z</updated>
     
     <content type="html"><![CDATA[<h2 id="What-is-the-DevOps"><a href="#What-is-the-DevOps" class="headerlink" title="What is the DevOps?"></a>What is the DevOps?</h2><blockquote>
 <p>DevOps is everything for me!</p>
@@ -894,6 +896,8 @@ $ git clone http<span class="hljs-variable">s:</span>//github.<span class="hljs-
       &lt;h2 id=&quot;What-is-the-DevOps&quot;&gt;&lt;a href=&quot;#What-is-the-DevOps&quot; class=&quot;headerlink&quot; title=&quot;What is the DevOps?&quot;&gt;&lt;/a&gt;What is the DevOps?&lt;/h2&gt;&lt;blockq
     
     </summary>
+    
+      <category term="devops" scheme="http://itdevops.me/categories/devops/"/>
     
     
       <category term="DevOps" scheme="http://itdevops.me/tags/DevOps/"/>
