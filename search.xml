@@ -37,6 +37,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Web服务器 .svn隐藏文件夹漏洞修复和杜绝]]></title>
+    <url>%2F2017%2F07%2F11%2Ffix_svn_bug%2F</url>
+    <content type="text"><![CDATA[Web服务器 .svn隐藏文件夹漏洞利用、修复和杜绝 在SVN的使用中，会自动生成一个名为.svn的隐藏文件夹，其中包含重要的源代码信息,如果在发布代码时，直接复制代码文件夹到Web服务器，同时.svn隐藏文件夹也被上传到程序根目录，可以利用.svn/entries文件，获取到服务器源码、svn服务器账号密码等信息。 隐藏文件夹是怎么来的？** 从svn获取发布版本时，没有正确使用svn导出功能导致！ 黑客是如何利用svn隐藏文件漏洞的？ 1、漏洞利用工具：Seay SVN漏洞利用工具 2、添加网站url，在被利用的网址后面加/.svn/entries就能列出来网站目录，甚至下载整站 修复漏洞 在web服务器配置文件中增加一段代码，过滤到.svn文件，返回404 123456789101112131415# nginx服务器：location ~ ^(.*)\/\.svn\/&#123;return 404;&#125;# 更改完成，重启nginx#Apache服务器：&lt;Directory ~ &quot;\.svn&quot;&gt;Order allow,denyDeny from all&lt;/Directory&gt;# 更改完成，重启apache 查找服务器上所有.svn隐藏文件夹，删除 依次执行下面命令，在项目目录下删除.svn文件夹 12345# 以web根目录/data/www/ 为例find . -type d -name &quot;.svn&quot;|xargs rm -rfrm -rf `find . -type d -name .svn`find . -name &quot;.svn&quot; -type d | xargs rm -frfind . -name &quot;.svn&quot; -type d | xargs -n1 rm -R 使用脚本一次性删除.svn目录 1234567#!/bin/shcd /data/wwwfind ./ -name &quot;.svn&quot; | xargs -n1 echo &gt; /dev/null 2&gt;&amp;1find ./ -name &quot;.svn&quot; -print0 | xargs -0 rm -frif [ $? -ne 0 ]; thenecho &quot;remove .svn dirs failed!&quot;fi 脚本执行完成，会自动删除/data/www目录及子目录所有.svn隐藏文件夹]]></content>
+      <categories>
+        <category>web</category>
+      </categories>
+      <tags>
+        <tag>svn</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[hello-devops]]></title>
     <url>%2F2017%2F07%2F11%2Fhello-devops%2F</url>
     <content type="text"><![CDATA[What is the DevOps? DevOps is everything for me!]]></content>
