@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://itdevops.me/"/>
-  <updated>2017-07-14T11:29:24.817Z</updated>
+  <updated>2017-07-14T10:56:23.719Z</updated>
   <id>http://itdevops.me/</id>
   
   <author>
@@ -14,38 +14,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title></title>
-    <link href="http://itdevops.me/hexo-next-sitemap-seo.html"/>
-    <id>http://itdevops.me/hexo-next-sitemap-seo.html</id>
-    <published>2017-07-14T11:26:24.816Z</published>
-    <updated>2017-07-14T11:29:24.817Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Hexo-NexT-主题的SEO优化"><a href="#Hexo-NexT-主题的SEO优化" class="headerlink" title="Hexo NexT 主题的SEO优化"></a>Hexo NexT 主题的SEO优化</h1><h2 id="安装站点地图"><a href="#安装站点地图" class="headerlink" title="安装站点地图"></a>安装站点地图</h2><ul>
-<li>安装插件</li>
-</ul>
-<blockquote>
-<p>需要安装两个插件来生成 sitemap 文件，前一个是传统的 sitemap，后一个是百度的 sitemap</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm install hexo-generator-sitemap --save</div><div class="line">npm install hexo-generator-baidu-sitemap --save</div></pre></td></tr></table></figure>
-<ul>
-<li>修改“站点配置文件”</li>
-</ul>
-<blockquote>
-<p>将sitemap 文件添加到站点配置文件 _config.yml中</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sitemap:</div><div class="line">  path: sitemap.xml</div><div class="line">baidusitemap:</div><div class="line">  path: baidusitemap.xml</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Hexo-NexT-主题的SEO优化&quot;&gt;&lt;a href=&quot;#Hexo-NexT-主题的SEO优化&quot; class=&quot;headerlink&quot; title=&quot;Hexo NexT 主题的SEO优化&quot;&gt;&lt;/a&gt;Hexo NexT 主题的SEO优化&lt;/h1&gt;&lt;h2 id=&quot;安
-    
-    </summary>
-    
-    
-  </entry>
   
   <entry>
     <title>Go 进阶指南</title>
