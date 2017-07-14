@@ -97,7 +97,7 @@
 <meta name="keywords" content="python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python 进阶指南">
-<meta property="og:url" content="http://itdevops.me/[object Object]/awesome-python/index.html">
+<meta property="og:url" content="http://itdevops.me/awesome-python.html">
 <meta property="og:site_name" content="itdevops">
 <meta property="og:description" content="Awesome Python Learning Tutorial">
 <meta property="og:image" content="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg">
@@ -133,7 +133,7 @@
 
 
 
-  <link rel="canonical" href="http://itdevops.me/[object Object]/awesome-python/"/>
+  <link rel="canonical" href="http://itdevops.me/awesome-python.html"/>
 
 
 
@@ -348,7 +348,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://itdevops.me/[object Object]/awesome-python/">
+    <link itemprop="mainEntityOfPage" href="http://itdevops.me/awesome-python.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shaonbean">
@@ -430,26 +430,15 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/[object Object]/awesome-python/#comments" itemprop="discussionUrl">
+                <a href="/awesome-python.html#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="[object Object]/awesome-python/" itemprop="commentCount"></span>
+                        data-disqus-identifier="awesome-python.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
-          
-             <span id="/[object Object]/awesome-python/" class="leancloud_visitors" data-flag-title="Python 进阶指南">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
           
 
           
@@ -1744,7 +1733,7 @@
     </li>
     <li class="post-copyright-link">
       <strong>Post link:</strong>
-      <a href="http://itdevops.me/[object Object]/awesome-python/" title="Python 进阶指南">http://itdevops.me/[object Object]/awesome-python/</a>
+      <a href="http://itdevops.me/awesome-python.html" title="Python 进阶指南">http://itdevops.me/awesome-python.html</a>
     </li>
     <li class="post-copyright-license">
       <strong>Copyright Notice: </strong>
@@ -1773,7 +1762,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/[object Object]/awesome-docker/" rel="next" title="Docker 进阶指南">
+              <a href="/awesome-docker.html" rel="next" title="Docker 进阶指南">
                 <i class="fa fa-chevron-left"></i> Docker 进阶指南
               </a>
             
@@ -1783,7 +1772,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/[object Object]/awesome-go/" rel="prev" title="Go 进阶指南">
+              <a href="/awesome-go.html" rel="prev" title="Go 进阶指南">
                 Go 进阶指南 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -2179,8 +2168,8 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://itdevops.me/[object Object]/awesome-python/';
-          this.page.identifier = '[object Object]/awesome-python/';
+          this.page.url = 'http://itdevops.me/awesome-python.html';
+          this.page.identifier = 'awesome-python.html';
           this.page.title = 'Python 进阶指南';
         };
         var d = document, s = d.createElement('script');
@@ -2534,113 +2523,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
-  <script>AV.initialize("rmvxlVP4zYx9orBhwoCHyrc7-gzGzoHsz", "vWlQFsHywUR2tVNnThoTkQPT");AV.useAVCloudUS();</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 <script>
