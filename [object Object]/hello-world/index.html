@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="svn," />
+  <meta name="keywords" content="hexo,github," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="svn隐藏目录漏洞修复">
-<meta name="keywords" content="svn">
+<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quic">
+<meta name="keywords" content="hexo,github">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Web服务器 .svn隐藏文件夹漏洞修复和杜绝">
-<meta property="og:url" content="http://itdevops.me/fix_svn_bug.html">
+<meta property="og:title" content="Hello World">
+<meta property="og:url" content="http://itdevops.me/[object Object]/hello-world/index.html">
 <meta property="og:site_name" content="itdevops">
-<meta property="og:description" content="svn隐藏目录漏洞修复">
-<meta property="og:updated_time" content="2017-07-13T02:24:11.254Z">
+<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quic">
+<meta property="og:updated_time" content="2017-07-12T05:40:32.066Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Web服务器 .svn隐藏文件夹漏洞修复和杜绝">
-<meta name="twitter:description" content="svn隐藏目录漏洞修复">
+<meta name="twitter:title" content="Hello World">
+<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quic">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://itdevops.me/fix_svn_bug.html"/>
+  <link rel="canonical" href="http://itdevops.me/[object Object]/hello-world/"/>
 
 
 
 
 
-  <title>Web服务器 .svn隐藏文件夹漏洞修复和杜绝 | itdevops</title>
+  <title>Hello World | itdevops</title>
   
 
 
@@ -346,7 +346,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://itdevops.me/fix_svn_bug.html">
+    <link itemprop="mainEntityOfPage" href="http://itdevops.me/[object Object]/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shaonbean">
@@ -363,7 +363,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Web服务器 .svn隐藏文件夹漏洞修复和杜绝</h1>
+          <h1 class="post-title" itemprop="name headline">Hello World</h1>
         
 
         <div class="post-meta">
@@ -391,8 +391,8 @@
               
                 <span class="post-meta-item-text">Post modified</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2017-07-13T10:24:11+08:00">
-                2017-07-13
+              <time title="Post modified" itemprop="dateModified" datetime="2017-07-12T13:40:32+08:00">
+                2017-07-12
               </time>
             
           </span>
@@ -410,8 +410,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web/" itemprop="url" rel="index">
-                    <span itemprop="name">web</span>
+                  <a href="/categories/Hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">Hexo</span>
                   </a>
                 </span>
 
@@ -428,9 +428,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/fix_svn_bug.html#comments" itemprop="discussionUrl">
+                <a href="/[object Object]/hello-world/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="fix_svn_bug.html" itemprop="commentCount"></span>
+                        data-disqus-identifier="[object Object]/hello-world/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -438,7 +438,7 @@
 
           
           
-             <span id="/fix_svn_bug.html" class="leancloud_visitors" data-flag-title="Web服务器 .svn隐藏文件夹漏洞修复和杜绝">
+             <span id="/[object Object]/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -460,10 +460,6 @@
           
 
           
-              <div class="post-description">
-                  svn隐藏目录漏洞修复
-              </div>
-          
 
         </div>
       </header>
@@ -475,34 +471,16 @@
       
 
       
-        <h1 id="Web服务器-svn隐藏文件夹漏洞利用、修复和杜绝"><a href="#Web服务器-svn隐藏文件夹漏洞利用、修复和杜绝" class="headerlink" title="Web服务器 .svn隐藏文件夹漏洞利用、修复和杜绝"></a>Web服务器 .svn隐藏文件夹漏洞利用、修复和杜绝</h1><blockquote>
-<p>在SVN的使用中，会自动生成一个名为.svn的隐藏文件夹，其中包含重要的源代码信息,如果在发布代码时，直接复制代码文件夹到Web服务器，同时.svn隐藏文件夹也被上传到程序根目录，可以利用.svn/entries文件，获取到服务器源码、svn服务器账号密码等信息。</p>
-</blockquote>
-<h2 id="隐藏文件夹是怎么来的？"><a href="#隐藏文件夹是怎么来的？" class="headerlink" title="隐藏文件夹是怎么来的？"></a>隐藏文件夹是怎么来的？</h2><p>** 从svn获取发布版本时，没有正确使用svn导出功能导致！</p>
-<h2 id="黑客是如何利用svn隐藏文件漏洞的？"><a href="#黑客是如何利用svn隐藏文件漏洞的？" class="headerlink" title="黑客是如何利用svn隐藏文件漏洞的？"></a>黑客是如何利用svn隐藏文件漏洞的？</h2><ul>
-<li><p>1、漏洞利用工具：Seay SVN漏洞利用工具</p>
-</li>
-<li><p>2、添加网站url，在被利用的网址后面加/.svn/entries就能列出来网站目录，甚至下载整站</p>
-</li>
-</ul>
-<h2 id="修复漏洞"><a href="#修复漏洞" class="headerlink" title="修复漏洞"></a>修复漏洞</h2><ul>
-<li>在web服务器配置文件中增加一段代码，过滤到.svn文件，返回404</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"># nginx服务器：</div><div class="line"></div><div class="line">location ~ ^(.*)\/\.svn\/</div><div class="line">&#123;</div><div class="line">return 404;</div><div class="line">&#125;</div><div class="line"># 更改完成，重启nginx</div><div class="line"></div><div class="line">#Apache服务器：</div><div class="line">&lt;Directory ~ &quot;\.svn&quot;&gt;</div><div class="line">Order allow,deny</div><div class="line">Deny from all</div><div class="line">&lt;/Directory&gt;</div><div class="line"></div><div class="line"># 更改完成，重启apache</div></pre></td></tr></table></figure>
-<ul>
-<li>查找服务器上所有.svn隐藏文件夹，删除</li>
-</ul>
-<blockquote>
-<p>依次执行下面命令，在项目目录下删除.svn文件夹</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># 以web根目录/data/www/ 为例</div><div class="line">find . -type d -name &quot;.svn&quot;|xargs rm -rf</div><div class="line">rm -rf `find . -type d -name .svn`</div><div class="line">find . -name &quot;.svn&quot; -type d | xargs rm -fr</div><div class="line">find . -name &quot;.svn&quot; -type d | xargs -n1 rm -R</div></pre></td></tr></table></figure>
-<ul>
-<li>使用脚本一次性删除.svn目录</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh</div><div class="line">cd /data/www</div><div class="line">find ./ -name &quot;.svn&quot; | xargs -n1 echo &gt; /dev/null 2&gt;&amp;1</div><div class="line">find ./ -name &quot;.svn&quot; -print0 | xargs -0 rm -fr</div><div class="line">if [ $? -ne 0 ]; then</div><div class="line">echo &quot;remove .svn dirs failed!&quot;</div><div class="line">fi</div></pre></td></tr></table></figure>
-<blockquote>
-<p>脚本执行完成，会自动删除/data/www目录及子目录所有.svn隐藏文件夹</p>
-</blockquote>
+        <hr>
+<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
 
       
     </div>
@@ -552,7 +530,7 @@
     </li>
     <li class="post-copyright-link">
       <strong>Post link:</strong>
-      <a href="http://itdevops.me/fix_svn_bug.html" title="Web服务器 .svn隐藏文件夹漏洞修复和杜绝">http://itdevops.me/fix_svn_bug.html</a>
+      <a href="http://itdevops.me/[object Object]/hello-world/" title="Hello World">http://itdevops.me/[object Object]/hello-world/</a>
     </li>
     <li class="post-copyright-license">
       <strong>Copyright Notice: </strong>
@@ -568,7 +546,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/svn/" rel="tag"># svn</a>
+            <a href="/tags/hexo/" rel="tag"># hexo</a>
+          
+            <a href="/tags/github/" rel="tag"># github</a>
           
         </div>
       
@@ -581,8 +561,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/hello-world.html" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/[object Object]/hello-devops/" rel="next" title="hello-devops">
+                <i class="fa fa-chevron-left"></i> hello-devops
               </a>
             
           </div>
@@ -591,8 +571,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/hexo-next-config.html" rel="prev" title="hexo next 主题设置">
-                hexo next 主题设置 <i class="fa fa-chevron-right"></i>
+              <a href="/[object Object]/fix_svn_bug/" rel="prev" title="Web服务器 .svn隐藏文件夹漏洞修复和杜绝">
+                Web服务器 .svn隐藏文件夹漏洞修复和杜绝 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -745,20 +725,20 @@
               </span>
             
               <span class="links-of-author-item">
-                <a href="https://www.zhihu.com/people/vdevops" target="_blank" title="知乎">
+                <a href="https://www.zhihu.com/people/vdevops" target="_blank" title="Zhihu">
                   
                     <i class="fa fa-fw fa-globe"></i>
                   
-                  知乎
+                  Zhihu
                 </a>
               </span>
             
               <span class="links-of-author-item">
-                <a href="http://www.jianshu.com/u/4e7e2ebc67d1" target="_blank" title="简书">
+                <a href="http://www.jianshu.com/u/4e7e2ebc67d1" target="_blank" title="Jianshu">
                   
                     <i class="fa fa-fw fa-globe"></i>
                   
-                  简书
+                  Jianshu
                 </a>
               </span>
             
@@ -812,7 +792,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Web服务器-svn隐藏文件夹漏洞利用、修复和杜绝"><span class="nav-number">1.</span> <span class="nav-text">Web服务器 .svn隐藏文件夹漏洞利用、修复和杜绝</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#隐藏文件夹是怎么来的？"><span class="nav-number">1.1.</span> <span class="nav-text">隐藏文件夹是怎么来的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#黑客是如何利用svn隐藏文件漏洞的？"><span class="nav-number">1.2.</span> <span class="nav-text">黑客是如何利用svn隐藏文件漏洞的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修复漏洞"><span class="nav-number">1.3.</span> <span class="nav-text">修复漏洞</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -881,17 +861,17 @@
 
   
     <span class="site-uv">
-      您是第
+      <i class="fa fa-user"></i> UV
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      个小伙伴
+      
     </span>
   
 
   
     <span class="site-pv">
-      本站总访问量
+      <i class="fa fa-eye"></i> PV
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      次
+      
     </span>
   
 </div>
@@ -1007,9 +987,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://itdevops.me/fix_svn_bug.html';
-          this.page.identifier = 'fix_svn_bug.html';
-          this.page.title = 'Web服务器 .svn隐藏文件夹漏洞修复和杜绝';
+          this.page.url = 'http://itdevops.me/[object Object]/hello-world/';
+          this.page.identifier = '[object Object]/hello-world/';
+          this.page.title = 'Hello World';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://itdevops.disqus.com/embed.js';
