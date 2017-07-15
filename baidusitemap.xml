@@ -4,6 +4,48 @@
 
     
   <url>
+    <loc>http://itdevops.me/awesome-shell.html</loc>
+    <lastmod>2017-07-15T11:07:22.763Z</lastmod>
+    <data>
+        <display>
+        <title>Shell 进阶指南</title>
+        <pubTime>2017-07-15T09:47:44.000Z</pubTime>
+        
+        <tag>shell</tag>
+         
+         
+           
+             
+              <breadCrumb title="shell" url="http://itdevops.me/categories/shell/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://itdevops.me/awesome-machine-learning.html</loc>
+    <lastmod>2017-07-15T11:06:01.596Z</lastmod>
+    <data>
+        <display>
+        <title>Machine Learning Tutorial</title>
+        <pubTime>2017-07-15T08:47:44.000Z</pubTime>
+        
+        <tag>ml</tag>
+         
+        <tag>deeplearn</tag>
+         
+         
+           
+             
+              <breadCrumb title="ml" url="http://itdevops.me/categories/ml/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://itdevops.me/life/index.html</loc>
     <lastmod>2017-07-14T14:35:16.189Z</lastmod>
     <data>
