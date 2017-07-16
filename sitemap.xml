@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://itdevops.me/awesome-python-cn.html</loc>
+    
+    <lastmod>2017-07-16T02:53:18.078Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://itdevops.me/awesome-ios.html</loc>
+    
+    <lastmod>2017-07-16T02:51:51.383Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://itdevops.me/awesome-shell.html</loc>
     
     <lastmod>2017-07-15T11:07:22.763Z</lastmod>
