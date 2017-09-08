@@ -336,7 +336,7 @@
     <link href="http://itdevops.me/Jenkins-Maven-SonarQube.html"/>
     <id>http://itdevops.me/Jenkins-Maven-SonarQube.html</id>
     <published>2017-09-08T08:03:14.554Z</published>
-    <updated>2017-09-08T08:12:50.132Z</updated>
+    <updated>2017-09-08T08:28:33.329Z</updated>
     
     <content type="html"><![CDATA[<h1 id="使用SonarQube扫描仪分析Maven"><a href="#使用SonarQube扫描仪分析Maven" class="headerlink" title="使用SonarQube扫描仪分析Maven"></a>使用SonarQube扫描仪分析Maven</h1><h2 id="安装jenkins"><a href="#安装jenkins" class="headerlink" title="安装jenkins"></a>安装jenkins</h2><ul>
 <li>参考：<a href="http://blog.csdn.net/wh211212/article/details/53644980" target="_blank" rel="external">http://blog.csdn.net/wh211212/article/details/53644980</a></li>
