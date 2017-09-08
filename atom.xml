@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://itdevops.me/"/>
-  <updated>2017-07-24T11:04:26.740Z</updated>
+  <updated>2017-07-25T02:06:27.174Z</updated>
   <id>http://itdevops.me/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://itdevops.me/c6-install-crack-jira.html"/>
     <id>http://itdevops.me/c6-install-crack-jira.html</id>
     <published>2017-07-24T09:47:44.000Z</published>
-    <updated>2017-07-24T11:04:26.740Z</updated>
+    <updated>2017-07-25T02:06:27.174Z</updated>
     
     <content type="html"><![CDATA[<h1 id="CentOS6-安装并破解Jira-7"><a href="#CentOS6-安装并破解Jira-7" class="headerlink" title="CentOS6 安装并破解Jira 7"></a>CentOS6 安装并破解Jira 7</h1><ul>
 <li><p>JIRA软件是为您的软件团队的每个成员构建的，用来规划，跟踪和发布优秀的软件。</p>
@@ -47,7 +47,7 @@
 <li><p>注意：jira是支持5.7的，但是Confluence不支持5.7，所以这里安装mysql5.下载mysql的yum包 <a href="https://dev.mysql.com/downloads/" target="_blank" rel="external">https://dev.mysql.com/downloads/</a> 安装</p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"># 服务器配置mysql repo源，https://dev.mysql.com/downloads/repo/yum/，下载mysql57-community-release-el6-11.noarch.rpm然后上传到/usr/local/src</div><div class="line"># 默认启用的是5.7，更改为5.6</div><div class="line">[mysql56-community]</div><div class="line">name=MySQL 5.6 Community Server</div><div class="line">baseurl=http://repo.mysql.com/yum/mysql-5.6-community/el/7/$basearch/</div><div class="line">enabled=1</div><div class="line">gpgcheck=1</div><div class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql</div><div class="line"></div><div class="line">[mysql57-community]</div><div class="line">name=MySQL 5.7 Community Server</div><div class="line">baseurl=http://repo.mysql.com/yum/mysql-5.7-community/el/7/$basearch/</div><div class="line">enabled=0</div><div class="line">gpgcheck=1</div><div class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql</div><div class="line">-----------------</div><div class="line"># 安装mysql</div><div class="line">yum clean all &amp;&amp; yum install mysql-community-server -y</div><div class="line"># 启动mysql并设置自启</div><div class="line"># /etc/init.d/mysqld start</div><div class="line">Initializing MySQL database:</div><div class="line">  /usr/bin/mysqladmin -u root password &apos;new-password&apos;</div><div class="line">  /usr/bin/mysqladmin -u root -h sh-kvm-3-1 password &apos;new-password&apos;</div><div class="line"></div><div class="line">Alternatively you can run:</div><div class="line"></div><div class="line">  /usr/bin/mysql_secure_installation</div><div class="line">--defaults-file argument to mysqld_safe when starting the server</div><div class="line"></div><div class="line">                                                           [  OK  ]</div><div class="line">Starting mysqld:                                           [  OK  ]</div><div class="line"></div><div class="line"># 初始化mysql并重置密码</div><div class="line">/usr/bin/mysql_secure_installation</div><div class="line"># 创建jira数据库和jira用户</div><div class="line">mysql -uroot -p&apos;211212&apos; -e &quot;create database jira;grant all on jira.* to &apos;jira&apos;@&apos;%&apos; identified by &apos;jirapasswd&apos;;&quot;</div><div class="line"># 测试jira连接mysql</div><div class="line"> mysql -ujira -pjirapasswd # 连接成功</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"># 服务器配置mysql repo源，https://dev.mysql.com/downloads/repo/yum/，下载mysql57-community-release-el6-11.noarch.rpm然后上传到/usr/local/src</div><div class="line"># 默认启用的是5.7，更改为5.6</div><div class="line">[mysql56-community]</div><div class="line">name=MySQL 5.6 Community Server</div><div class="line">baseurl=http://repo.mysql.com/yum/mysql-5.6-community/el/7/$basearch/</div><div class="line">enabled=1</div><div class="line">gpgcheck=1</div><div class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql</div><div class="line"></div><div class="line">[mysql57-community]</div><div class="line">name=MySQL 5.7 Community Server</div><div class="line">baseurl=http://repo.mysql.com/yum/mysql-5.7-community/el/7/$basearch/</div><div class="line">enabled=0</div><div class="line">gpgcheck=1</div><div class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql</div><div class="line">-----------------</div><div class="line"># 安装mysql</div><div class="line">yum clean all &amp;&amp; yum install mysql-community-server -y</div><div class="line"># 启动mysql并设置自启</div><div class="line"># /etc/init.d/mysqld start</div><div class="line">Initializing MySQL database:</div><div class="line">  /usr/bin/mysqladmin -u root password &apos;new-password&apos;</div><div class="line">  /usr/bin/mysqladmin -u root -h sh-kvm-3-1 password &apos;new-password&apos;</div><div class="line"></div><div class="line">Alternatively you can run:</div><div class="line"></div><div class="line">  /usr/bin/mysql_secure_installation</div><div class="line">--defaults-file argument to mysqld_safe when starting the server</div><div class="line"></div><div class="line">                                                           [  OK  ]</div><div class="line">Starting mysqld:                                           [  OK  ]</div><div class="line"></div><div class="line"># 初始化mysql并重置密码</div><div class="line">/usr/bin/mysql_secure_installation</div><div class="line"># 创建jira数据库和jira用户</div><div class="line">mysql -uroot -p&apos;211212&apos; -e &quot;CREATE DATABASE jiradb CHARACTER SET utf8 COLLATE utf8_bin;grant all on jira.* to &apos;jira&apos;@&apos;%&apos; identified by &apos;jirapasswd&apos;;&quot;</div><div class="line"># 测试jira连接mysql</div><div class="line"> mysql -ujira -pjirapasswd # 连接成功</div></pre></td></tr></table></figure>
 <h2 id="安装jira"><a href="#安装jira" class="headerlink" title="安装jira"></a>安装jira</h2><ul>
 <li>JIRA下载地址：<a href="https://www.atlassian.com/software/jira/download，下载，然后上传到/usr/local/src" target="_blank" rel="external">https://www.atlassian.com/software/jira/download，下载，然后上传到/usr/local/src</a></li>
 </ul>
@@ -129,6 +129,7 @@
 <li><p>jira使用中相关问题，后续会写博文介绍。</p>
 </li>
 </ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://confluence.atlassian.com/jira/connecting-jira-to-mysql-185729489.html" target="_blank" rel="external">https://confluence.atlassian.com/jira/connecting-jira-to-mysql-185729489.html</a></p>
 ]]></content>
     
     <summary type="html">
@@ -9122,6 +9123,41 @@
   </entry>
   
   <entry>
+    <title>Hello World</title>
+    <link href="http://itdevops.me/hello-world.html"/>
+    <id>http://itdevops.me/hello-world.html</id>
+    <published>2017-07-11T15:47:44.000Z</published>
+    <updated>2017-07-12T05:40:32.066Z</updated>
+    
+    <content type="html"><![CDATA[<hr>
+<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;hr&gt;
+&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://
+    
+    </summary>
+    
+      <category term="Hexo" scheme="http://itdevops.me/categories/Hexo/"/>
+    
+    
+      <category term="hexo" scheme="http://itdevops.me/tags/hexo/"/>
+    
+      <category term="github" scheme="http://itdevops.me/tags/github/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Web服务器 .svn隐藏文件夹漏洞修复和杜绝</title>
     <link href="http://itdevops.me/fix_svn_bug.html"/>
     <id>http://itdevops.me/fix_svn_bug.html</id>
@@ -9168,41 +9204,6 @@
     
     
       <category term="svn" scheme="http://itdevops.me/tags/svn/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://itdevops.me/hello-world.html"/>
-    <id>http://itdevops.me/hello-world.html</id>
-    <published>2017-07-11T15:47:44.000Z</published>
-    <updated>2017-07-12T05:40:32.066Z</updated>
-    
-    <content type="html"><![CDATA[<hr>
-<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;hr&gt;
-&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://
-    
-    </summary>
-    
-      <category term="Hexo" scheme="http://itdevops.me/categories/Hexo/"/>
-    
-    
-      <category term="hexo" scheme="http://itdevops.me/tags/hexo/"/>
-    
-      <category term="github" scheme="http://itdevops.me/tags/github/"/>
     
   </entry>
   
