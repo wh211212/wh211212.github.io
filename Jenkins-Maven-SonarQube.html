@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, DevOps" />
+  <meta name="keywords" content="jenkins,maven,sonarqube," />
 
 
 
@@ -93,15 +93,23 @@
 
 
 
-<meta name="description" content="From Zero to the DevOps">
-<meta property="og:type" content="website">
-<meta property="og:title" content="itdevops">
-<meta property="og:url" content="http://itdevops.me/tags/code/index.html">
+<meta name="description" content="Jenkins + Maven + SonarQube 构建代码质量检测平台">
+<meta name="keywords" content="jenkins,maven,sonarqube">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 进阶指南">
+<meta property="og:url" content="http://itdevops.me/Jenkins-Maven-SonarQube.html">
 <meta property="og:site_name" content="itdevops">
-<meta property="og:description" content="From Zero to the DevOps">
+<meta property="og:description" content="Jenkins + Maven + SonarQube 构建代码质量检测平台">
+<meta property="og:image" content="http://img.blog.csdn.net/20170821165430385?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2gyMTEyMTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170821165807051?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2gyMTEyMTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170821170126464?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2gyMTEyMTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170821171827944?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2gyMTEyMTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170821171950275?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2gyMTEyMTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2017-09-08T08:04:29.701Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="itdevops">
-<meta name="twitter:description" content="From Zero to the DevOps">
+<meta name="twitter:title" content="Docker 进阶指南">
+<meta name="twitter:description" content="Jenkins + Maven + SonarQube 构建代码质量检测平台">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170821165430385?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2gyMTEyMTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 
 
 
@@ -129,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="http://itdevops.me/tags/code/"/>
+  <link rel="canonical" href="http://itdevops.me/Jenkins-Maven-SonarQube.html"/>
 
 
 
 
 
-  <title>Tag: code | itdevops</title>
+  <title>Docker 进阶指南 | itdevops</title>
   
 
 
@@ -173,7 +181,7 @@
     
   
 
-  <div class="container sidebar-position-left  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -331,44 +339,343 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h1>code<small>Tag</small>
-      </h1>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://itdevops.me/Jenkins-Maven-SonarQube.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shaonbean">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://avatar.csdn.net/6/A/9/1_wh211212.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="itdevops">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Docker 进阶指南</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-08T16:03:14+08:00">
+                2017-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/jenkins/" itemprop="url" rel="index">
+                    <span itemprop="name">jenkins</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Jenkins-Maven-SonarQube.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="Jenkins-Maven-SonarQube.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/Jenkins-Maven-SonarQube.html" class="leancloud_visitors" data-flag-title="Docker 进阶指南">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article</span>
+                
+                <span title="Words count in article">
+                  560
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time</span>
+                
+                <span title="Reading time">
+                  3
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  Jenkins + Maven + SonarQube 构建代码质量检测平台
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <h1 id="使用SonarQube扫描仪分析Maven"><a href="#使用SonarQube扫描仪分析Maven" class="headerlink" title="使用SonarQube扫描仪分析Maven"></a>使用SonarQube扫描仪分析Maven</h1><h2 id="安装jenkins"><a href="#安装jenkins" class="headerlink" title="安装jenkins"></a>安装jenkins</h2><ul>
+<li>参考：<a href="http://blog.csdn.net/wh211212/article/details/53644980" target="_blank" rel="external">http://blog.csdn.net/wh211212/article/details/53644980</a></li>
+</ul>
+<h2 id="安装Maven"><a href="#安装Maven" class="headerlink" title="安装Maven"></a>安装Maven</h2><ul>
+<li>参考：<a href="http://blog.csdn.net/wh211212/article/details/69578996" target="_blank" rel="external">http://blog.csdn.net/wh211212/article/details/69578996</a></li>
+</ul>
+<h2 id="安装SonarQube"><a href="#安装SonarQube" class="headerlink" title="安装SonarQube"></a>安装SonarQube</h2><ul>
+<li>参考：<a href="http://blog.csdn.net/wh211212/article/details/77371831" target="_blank" rel="external">http://blog.csdn.net/wh211212/article/details/77371831</a></li>
+</ul>
+<h2 id="配置Jenkins-Maven-SonarQube"><a href="#配置Jenkins-Maven-SonarQube" class="headerlink" title="配置Jenkins + Maven + SonarQube"></a>配置Jenkins + Maven + SonarQube</h2><ul>
+<li>SonarQube 登录</li>
+</ul>
+<p><img src="http://img.blog.csdn.net/20170821165430385?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2gyMTEyMTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="access-sonar"></p>
+<blockquote>
+<p>用户密码为安装sonar设置的用户名和密码</p>
+</blockquote>
+<ul>
+<li>登录到sonar平台，设置 administration -security -user -administrator （右键，重新获取一个tokens，名字自定义）</li>
+</ul>
+<p><img src="http://img.blog.csdn.net/20170821165807051?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2gyMTEyMTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="get-tokens"></p>
+<blockquote>
+<p>右键复制 获取的tokens，然后去jenkins里面配置 sonar</p>
+</blockquote>
+<ul>
+<li>jenkins登录 -&gt; configure system -&gt; SonarQube servers</li>
+</ul>
+<p><img src="http://img.blog.csdn.net/20170821170126464?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2gyMTEyMTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="config-sonar"></p>
+<blockquote>
+<p>注：笔者安装的服务统一使用域名的方式访问。如果有需要，记得本地设置hosts</p>
+</blockquote>
+<ul>
+<li>配置maven</li>
+</ul>
+<blockquote>
+<p>编辑位于$ MAVEN_HOME / conf或〜/ .m2中的settings.xml文件，设置插件前缀和可选的SonarQube服务器URL</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;settings&gt;</div><div class="line">    &lt;pluginGroups&gt;</div><div class="line">        &lt;pluginGroup&gt;org.sonarsource.scanner.maven&lt;/pluginGroup&gt;</div><div class="line">    &lt;/pluginGroups&gt;</div><div class="line">    &lt;profiles&gt;</div><div class="line">        &lt;profile&gt;</div><div class="line">            &lt;id&gt;sonar&lt;/id&gt;</div><div class="line">            &lt;activation&gt;</div><div class="line">                &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</div><div class="line">            &lt;/activation&gt;</div><div class="line">            &lt;properties&gt;</div><div class="line">                &lt;!-- Optional URL to server. Default value is http://localhost:9000 --&gt;</div><div class="line">                &lt;sonar.host.url&gt;</div><div class="line">                  http://sonar.aniu.so  # 填写自己的sonar服务器地址</div><div class="line">                &lt;/sonar.host.url&gt;</div><div class="line">            &lt;/properties&gt;</div><div class="line">        &lt;/profile&gt;</div><div class="line">     &lt;/profiles&gt;</div><div class="line">&lt;/settings&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>分析一个Maven项目</li>
+</ul>
+<blockquote>
+<p>移动到一个maven项目目录内，执行下面命令</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mvn clean verify sonar:sonar </div><div class="line"># 此段命令也可以在jenkins配置，如下：</div></pre></td></tr></table></figure>
+<p><img src="http://img.blog.csdn.net/20170821171827944?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2gyMTEyMTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<blockquote>
+<p>mvn 分析完成之后，登录sonar平台查看分析结果</p>
+</blockquote>
+<p><img src="http://img.blog.csdn.net/20170821171950275?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2gyMTEyMTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<blockquote>
+<p>从图中可以很明显的看出此项目存在347个BUG，然后给开发创建sonar账号，让他们帮忙修复。。。</p>
+</blockquote>
+<h2 id="相关报错解决"><a href="#相关报错解决" class="headerlink" title="相关报错解决"></a>相关报错解决</h2><ul>
+<li>Sonargraph Integration: Skipping project aniu-api-product [tv.aniu:aniu-api-product], since no Sonargraph rules are activated in current SonarQube quality profile [SonarQube] </li>
+</ul>
+<blockquote>
+<p>此报错暂时不影响maven 集成到 sonar上</p>
+</blockquote>
+<ul>
+<li>413 Request Entity Too Large</li>
+</ul>
+<blockquote>
+<p>原因是nginx默认上传文件的大小是1M，可nginx的设置中修改</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">解决方法如下：</div><div class="line">1.打开nginx配置文件 nginx.conf, 路径一般是：/etc/nginx/nginx.conf。</div><div class="line">2.在http&#123;&#125;段中加入 client_max_body_size 20m; 20m为允许最大上传的大小（大小可自定义）。</div><div class="line">3.保存后重启nginx，问题解决。</div></pre></td></tr></table></figure>
+<ul>
+<li>sonar Failed to upload report - 500: An error has occurred</li>
+</ul>
+<blockquote>
+<p>Caused by: com.mysql.jdbc.PacketTooBigException: Packet for query is too large (22790518 &gt; 16777216). You can change this value on the server by setting the max_allowed_packet’ variable.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">show variables like &apos;%max_allowed_packet%&apos;;</div><div class="line">更改mysql 的max_allowed_packet参数，设置 max_allowed_packet = 64M ,然后重启mysql</div><div class="line">[mysqld]</div><div class="line">max_allowed_packet=32M</div><div class="line">https://dev.mysql.com/doc/refman/5.7/en/packet-too-large.html</div></pre></td></tr></table></figure>
+<blockquote>
+<p>注：这里报错可以通过查看sonar的web.log得出原因。</p>
+</blockquote>
 
-      <h2 class="post-title">
+      
+    </div>
+
+    <div>
+      
         
-            <a class="post-title-link" href="/awesome-python-cn.html" itemprop="url">
-              
-                <span itemprop="name">Python 学习资源大全中文版</span>
-              
-            </a>
+
+      
+    </div>
+
+    <div>
+      
         
-      </h2>
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Insist on the original technology sharing, your support will encourage me to continue to create!</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat-reward.png" alt="Shaonbean WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay-reward.png" alt="Shaonbean Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-16T09:47:44+08:00"
-              content="2017-07-16" >
-          07-16
-        </time>
-      </div>
 
-    </header>
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>Post author:</strong>
+      Shaonbean
+    </li>
+    <li class="post-copyright-link">
+      <strong>Post link:</strong>
+      <a href="http://itdevops.me/Jenkins-Maven-SonarQube.html" title="Docker 进阶指南">http://itdevops.me/Jenkins-Maven-SonarQube.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>Copyright Notice: </strong>
+      All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jenkins/" rel="tag"># jenkins</a>
+          
+            <a href="/tags/maven/" rel="tag"># maven</a>
+          
+            <a href="/tags/sonarqube/" rel="tag"># sonarqube</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/c6-install-crack-jira.html" rel="next" title="CentOS6 安装并破解Jira 7">
+                <i class="fa fa-chevron-left"></i> CentOS6 安装并破解Jira 7
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </div>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -376,6 +683,17 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -396,8 +714,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://avatar.csdn.net/6/A/9/1_wh211212.jpg"
@@ -541,6 +868,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用SonarQube扫描仪分析Maven"><span class="nav-number">1.</span> <span class="nav-text">使用SonarQube扫描仪分析Maven</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装jenkins"><span class="nav-number">1.1.</span> <span class="nav-text">安装jenkins</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Maven"><span class="nav-number">1.2.</span> <span class="nav-text">安装Maven</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装SonarQube"><span class="nav-number">1.3.</span> <span class="nav-text">安装SonarQube</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Jenkins-Maven-SonarQube"><span class="nav-number">1.4.</span> <span class="nav-text">配置Jenkins + Maven + SonarQube</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关报错解决"><span class="nav-number">1.5.</span> <span class="nav-text">相关报错解决</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -693,10 +1036,10 @@
 
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 
@@ -714,6 +1057,18 @@
       <script id="dsq-count-scr" src="https://itdevops.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://itdevops.me/Jenkins-Maven-SonarQube.html';
+          this.page.identifier = 'Jenkins-Maven-SonarQube.html';
+          this.page.title = 'Docker 进阶指南';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itdevops.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   
