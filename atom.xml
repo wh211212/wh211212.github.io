@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://itdevops.me/"/>
-  <updated>2017-09-08T08:04:29.701Z</updated>
+  <updated>2017-09-08T08:15:40.947Z</updated>
   <id>http://itdevops.me/</id>
   
   <author>
@@ -16,11 +16,327 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Docker 进阶指南</title>
+    <title>使用Logstash和Kibana在CentOS 7上集中日志记录</title>
+    <link href="http://itdevops.me/centos7-elk.html"/>
+    <id>http://itdevops.me/centos7-elk.html</id>
+    <published>2017-09-08T08:14:53.923Z</published>
+    <updated>2017-09-08T08:15:40.947Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="使用Logstash和Kibana在CentOS-7上集中日志记录"><a href="#使用Logstash和Kibana在CentOS-7上集中日志记录" class="headerlink" title="使用Logstash和Kibana在CentOS 7上集中日志记录"></a>使用Logstash和Kibana在CentOS 7上集中日志记录</h1><blockquote>
+<p>集中日志记录在尝试识别服务器或应用程序的问题时非常有用，因为它允许您在单个位置搜索所有日志。它也很有用，因为它允许您通过在特定时间范围内关联其日志来识别跨多个服务器的问题。本系列教程将教您如何在CentOS上安装Logstash和Kibana，然后如何添加更多过滤器来构造您的日志数据。</p>
+<p><a href="http://www.ibm.com/developerworks/cn/opensource/os-cn-elk/" target="_blank" rel="external">http://www.ibm.com/developerworks/cn/opensource/os-cn-elk/</a></p>
+</blockquote>
+<h2 id="安装介绍"><a href="#安装介绍" class="headerlink" title="安装介绍"></a>安装介绍</h2><blockquote>
+<p>在本教程中，我们将在CentOS 7上安装Elasticsearch ELK Stack，即Elasticsearch 5. x，Logstash 5. x和Kibana 5. x。我们还将向您展示如何配置它，以使用Filebeat 1.在一个集中的位置收集和可视化您的系统的系统日志。 Logstash是一个用于收集，解析和存储日志以供将来使用的开源工具。 Kibana是一个Web界面，可用于搜索和查看Logstash索引的日志。这两个工具都基于Elasticsearch，用于存储日志。</p>
+<p>集中日志记录在尝试识别服务器或应用程序的问题时非常有用，因为它允许您在单个位置搜索所有日志。它也很有用，因为它允许您通过在特定时间范围内关联其日志来识别跨多个服务器的问题。</p>
+<p>可以使用Logstash收集所有类型的日志，但我们将本教程的范围限制为syslog收集。</p>
+</blockquote>
+<h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><blockquote>
+<p>本教程的目标是设置Logstash以收集多个服务器的syslog，并设置Kibana以可视化收集的日志。</p>
+<p>ELK堆栈设置有四个主要组件：</p>
+</blockquote>
+<ul>
+<li>Logstash：处理传入日志的Logstash的服务器组件</li>
+<li>Elasticsearch：存储所有日志</li>
+<li>Kibana：用于搜索和可视化日志的Web界面，将通过Nginx </li>
+<li>Filebeat代理：安装在将其日志发送到Logstash的客户端服务器，Filebeat充当日志传送代理，利用伐木工具网络协议与Logstash进行通信</li>
+</ul>
+<p><img src="http://img.blog.csdn.net/20170104092607440?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2gyMTEyMTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<blockquote>
+<p>我们将在单个服务器上安装前三个组件，我们将其称为我们的ELK服务器。 Filebeat将安装在我们要收集日志的所有客户端服务器上，我们将统称为客户端服务器。</p>
+</blockquote>
+<h3 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h3><blockquote>
+<p>您的ELK服务器将需要的CPU，RAM和存储量取决于您要收集的日志的卷。在本教程中，我们将使用具有以下规格的VPS用于我们的ELK服务器：</p>
+</blockquote>
+<ul>
+<li>OS: CentOS 7</li>
+<li>RAM: 4GB</li>
+<li>CPU: 2</li>
+</ul>
+<blockquote>
+<p>注：根据自己的服务器资源分配各个节点的资源</p>
+</blockquote>
+<h3 id="安装-Java-8"><a href="#安装-Java-8" class="headerlink" title="安装 Java 8"></a>安装 Java 8</h3><blockquote>
+<p>Elasticsearch和Logstash需要Java，所以我们现在就安装它。我们将安装最新版本的Oracle Java 8，因为这是Elasticsearch推荐的版本。</p>
+<p>注：建议本地下载完最新版的JDK，然后上传到服务器的/usr/local/src目录</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># JDK下载地址：</div><div class="line">http://www.oracle.com/technetwork/java/javase/downloads</div></pre></td></tr></table></figure>
+<blockquote>
+<p>然后使用此yum命令安装RPM（如果您下载了不同的版本，请在此处替换文件名）：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">yum -y localinstall jdk-8u111-linux-x64.rpm</div><div class="line"># or</div><div class="line">rpm -ivh jdk-8u111-linux-x64.rpm</div></pre></td></tr></table></figure>
+<blockquote>
+<p>现在Java应该安装在/usr/java/jdk1.8.0_111/jre/bin/java，并从/usr/bin/java 链接。</p>
+</blockquote>
+<h2 id="安装-Elasticsearch"><a href="#安装-Elasticsearch" class="headerlink" title="安装 Elasticsearch"></a>安装 Elasticsearch</h2><blockquote>
+<p>Elasticsearch可以通过添加Elastic的软件包仓库与软件包管理器一起安装。</p>
+<p>运行以下命令将Elasticsearch公共GPG密钥导入rpm：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html</div><div class="line"></div><div class="line">rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch</div></pre></td></tr></table></figure>
+<blockquote>
+<p>在基于RedHat的发行版的/etc/yum.repos.d/目录中创建一个名为elasticsearch.repo的文件,其中包括：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">echo &apos;[elasticsearch-5.x]</div><div class="line">name=Elasticsearch repository for 5.x packages</div><div class="line">baseurl=https://artifacts.elastic.co/packages/5.x/yum</div><div class="line">gpgcheck=1</div><div class="line">gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch</div><div class="line">enabled=1</div><div class="line">autorefresh=1</div><div class="line">type=rpm-md</div><div class="line">&apos; | sudo tee /etc/yum.repos.d/elasticsearch.repo</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Elasticsearch 源创建完成之后，通过makecache查看源是否可用，然后通过yum安装Elasticsearch ：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">yum makecache</div><div class="line">yum install elasticsearch -y</div></pre></td></tr></table></figure>
+<blockquote>
+<p>要将Elasticsearch配置为在系统引导时自动启动，请运行以下命令：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo /bin/systemctl daemon-reload</div><div class="line">sudo /bin/systemctl enable elasticsearch.service</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Elasticsearch可以按如下方式启动和停止：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo systemctl start elasticsearch.service</div><div class="line">sudo systemctl stop elasticsearch.service</div></pre></td></tr></table></figure>
+<blockquote>
+<p>这些命令不会提供有关Elasticsearch是否已成功启动的反馈。相反，此信息将写入位于/ var / log / elasticsearch /中的日志文件中。 </p>
+<p>默认情况下，Elasticsearch服务不会记录systemd日志中的信息。要启用journalctl日志记录，必须从elasticsearch中的ExecStart命令行中删除–quiet选项。服务文件。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 注释24行的 --quiet \</div><div class="line">vim /etc/systemd/system/multi-user.target.wants/elasticsearch.service</div></pre></td></tr></table></figure>
+<blockquote>
+<p>当启用systemd日志记录时，使用journalctl命令可以获得日志记录信息：</p>
+</blockquote>
+<ul>
+<li>使用tail查看journal：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo journalctl -f</div></pre></td></tr></table></figure>
+<ul>
+<li>要列出elasticsearch服务的日记帐分录：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo journalctl --unit elasticsearch</div></pre></td></tr></table></figure>
+<ul>
+<li>要从给定时间开始列出elasticsearch服务的日记帐分录：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo journalctl --unit elasticsearch --since  &quot;2017-1-4 10:17:16&quot;</div><div class="line"></div><div class="line"># since 表示指定时间之前的记录</div></pre></td></tr></table></figure>
+<blockquote>
+<p>使用man journalctl  查看journalctl  更多使用方法</p>
+</blockquote>
+<h3 id="检查Elasticsearch是否正在运行"><a href="#检查Elasticsearch是否正在运行" class="headerlink" title="检查Elasticsearch是否正在运行"></a>检查Elasticsearch是否正在运行</h3><blockquote>
+<p>您可以通过向localhost上的端口9200发送HTTP请求来测试Elasticsearch节点是否正在运行：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -XGET &apos;localhost:9200/?pretty&apos;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>我们能得到下面这样的回显：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;name&quot; : &quot;De-LRNO&quot;,</div><div class="line">  &quot;cluster_name&quot; : &quot;elasticsearch&quot;,</div><div class="line">  &quot;cluster_uuid&quot; : &quot;DeJzplWhQQK5uGitXr8jjA&quot;,</div><div class="line">  &quot;version&quot; : &#123;</div><div class="line">    &quot;number&quot; : &quot;5.1.1&quot;,</div><div class="line">    &quot;build_hash&quot; : &quot;5395e21&quot;,</div><div class="line">    &quot;build_date&quot; : &quot;2016-12-06T12:36:15.409Z&quot;,</div><div class="line">    &quot;build_snapshot&quot; : false,</div><div class="line">    &quot;lucene_version&quot; : &quot;6.3.0&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;tagline&quot; : &quot;You Know, for Search&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="配置-Elasticsearch"><a href="#配置-Elasticsearch" class="headerlink" title="配置 Elasticsearch"></a>配置 Elasticsearch</h3><blockquote>
+<p>Elasticsearch 从默认的/etc/elasticsearch/elasticsearch.yml加载配置文件，<br>配置文件的格式考：<br><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/settings.html" target="_blank" rel="external">https://www.elastic.co/guide/en/elasticsearch/reference/current/settings.html</a> </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@linuxprobe ~]# egrep -v &quot;^#|^$&quot; /etc/elasticsearch/elasticsearch.yml </div><div class="line">[root@linuxprobe ~]# egrep -v &quot;^#|^$&quot; /etc/elasticsearch/elasticsearch.yml</div><div class="line">node.name: node-1</div><div class="line">path.data: /var/lib/elasticsearch</div><div class="line">path.logs: /var/log/elasticsearch</div><div class="line">network.host: 10.1.1.53  # 默认localhost，自定义为ip</div><div class="line">http.port: 9200</div></pre></td></tr></table></figure>
+<blockquote>
+<p>RPM还具有系统配置文件（/etc/sysconfig/elasticsearch），允许您设置以下参数：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@linuxprobe elasticsearch]# egrep -v &quot;^#|^$&quot; /etc/sysconfig/elasticsearch </div><div class="line">ES_HOME=/usr/share/elasticsearch</div><div class="line">JAVA_HOME=/usr/java/jdk1.8.0_111</div><div class="line">CONF_DIR=/etc/elasticsearch</div><div class="line">DATA_DIR=/var/lib/elasticsearch</div><div class="line">LOG_DIR=/var/log/elasticsearch</div><div class="line">PID_DIR=/var/run/elasticsearch</div></pre></td></tr></table></figure>
+<h3 id="日志配置"><a href="#日志配置" class="headerlink" title="日志配置"></a>日志配置</h3><blockquote>
+<p>Elasticsearch使用Log4j 2进行日志记录。 Log4j 2可以使用log4j2配置。属性文件。 Elasticsearch公开单个属性$ {sys：es。日志}，可以在配置文件中引用以确定日志文件的位置;这将在运行时解析为Elasticsearch日志文件的前缀。</p>
+<p>例如，如果您的日志目录是/var/log/elasticsearch并且您的集群名为production，那么$ {sys：es。 logs}将解析为/var/log/elasticsearch/production。</p>
+<p>默认日志配置存在：/etc/elasticsearch/log4j2.properties</p>
+</blockquote>
+<h2 id="安装-Kibana"><a href="#安装-Kibana" class="headerlink" title="安装 Kibana"></a>安装 Kibana</h2><blockquote>
+<p>Kibana的RPM可以从ELK官网或从RPM存储库下载。它可用于在任何基于RPM的系统（如OpenSuSE，SLES，Centos，Red Hat和Oracle Enterprise）上安装Kibana。</p>
+</blockquote>
+<h3 id="导入Elastic-PGP-Key"><a href="#导入Elastic-PGP-Key" class="headerlink" title="导入Elastic PGP Key"></a>导入Elastic PGP Key</h3><blockquote>
+<p>我们使用弹性签名密钥（PGP密钥D88E42B4，可从<a href="https://pgp.mit.edu）签名所有的包，指纹：" target="_blank" rel="external">https://pgp.mit.edu）签名所有的包，指纹：</a></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch</div></pre></td></tr></table></figure>
+<blockquote>
+<p>创建kibana源</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">echo &apos;[kibana-5.x]</div><div class="line">name=Kibana repository for 5.x packages</div><div class="line">baseurl=https://artifacts.elastic.co/packages/5.x/yum</div><div class="line">gpgcheck=1</div><div class="line">gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch</div><div class="line">enabled=1</div><div class="line">autorefresh=1</div><div class="line">type=rpm-md</div><div class="line">&apos; | sudo tee /etc/yum.repos.d/kibana.repo</div></pre></td></tr></table></figure>
+<blockquote>
+<p>kibana源创建成功之后，makecache后使用yum安装kibana：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum makecache &amp;&amp; yum install kibana -y</div></pre></td></tr></table></figure>
+<h3 id="使用systemd运行Kibana"><a href="#使用systemd运行Kibana" class="headerlink" title="使用systemd运行Kibana"></a>使用systemd运行Kibana</h3><blockquote>
+<p>要将Kibana配置为在系统引导时自动启动，请运行以下命令：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo /bin/systemctl daemon-reload</div><div class="line">sudo /bin/systemctl enable kibana.service</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Kibana可以如下启动和停止<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo systemctl start kibana.service</div><div class="line">sudo systemctl stop kibana.service</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="配置Kibana"><a href="#配置Kibana" class="headerlink" title="配置Kibana"></a>配置Kibana</h3><blockquote>
+<p>Kibana默认从/etc/kibana/kibana.yml文件加载其配置。<br>参考：<a href="https://www.elastic.co/guide/en/kibana/current/settings.html" target="_blank" rel="external">https://www.elastic.co/guide/en/kibana/current/settings.html</a></p>
+<p>注意：本实验教程把localhost都改成服务器IP，如果不更改localhost，需要设置反向代理才能访问到kibana。</p>
+<p>在同一服务器上安装一个Nginx反向代理，以允许外部访问。</p>
+</blockquote>
+<h2 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h2><blockquote>
+<p>配置Kibana在localhost上监听，必须设置一个反向代理，允许外部访问它。本文使用Nginx来实现发向代理。</p>
+</blockquote>
+<ul>
+<li>创建nginx官方源来安装nginx</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># https://www.nginx.com/resources/wiki/start/topics/tutorials/install/</div><div class="line"></div><div class="line">echo &apos;[nginx]</div><div class="line">name=nginx repo</div><div class="line">baseurl=http://nginx.org/packages/centos/$releasever/$basearch/</div><div class="line">gpgcheck=0</div><div class="line">enabled=1</div><div class="line">&apos; | sudo tee /etc/yum.repos.d/nginx.repo</div></pre></td></tr></table></figure>
+<ul>
+<li>使用yum安装nginx和httpd-tools</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install nginx httpd-tools -y</div></pre></td></tr></table></figure>
+<ul>
+<li>使用htpasswd创建一个名为“kibanaadmin”的管理员用户（可以使用其他名称），该用户可以访问Kibana Web界面：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@linuxprobe ~]# htpasswd -c /etc/nginx/htpasswd.users kibanaadmin</div><div class="line">New password:              # 自定义</div><div class="line">Re-type new password: </div><div class="line">Adding password for user kibanaadmin</div></pre></td></tr></table></figure>
+<blockquote>
+<p>使用vim配置nginx配置文件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">[root@linuxprobe ~]# egrep -v &quot;#|^$&quot; /etc/nginx/conf.d/kibana.conf </div><div class="line">server &#123;</div><div class="line">    listen       80;</div><div class="line">    server_name  kibana.aniu.co;</div><div class="line">    access_log  /var/log/nginx/kibana.aniu.co.access.log main;</div><div class="line">    error_log   /var/log/nginx/kibana.aniu.co.access.log;</div><div class="line">    auth_basic &quot;Restricted Access&quot;;</div><div class="line">    auth_basic_user_file /etc/nginx/htpasswd.users;</div><div class="line">    location / &#123;</div><div class="line">        proxy_pass http://localhost:5601;</div><div class="line">        proxy_http_version 1.1;</div><div class="line">        proxy_set_header Upgrade $http_upgrade;</div><div class="line">        proxy_set_header Connection &apos;upgrade&apos;;</div><div class="line">        proxy_set_header Host $host;</div><div class="line">        proxy_cache_bypass $http_upgrade;        </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>保存并退出。这将配置Nginx将您的服务器的HTTP流量定向到在本地主机5601上侦听的Kibana应用程序。此外，Nginx将使用我们之前创建的htpasswd.users文件，并需要基本身份验证。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 启动nginx并验证配置</div><div class="line"></div><div class="line">sudo systemctl start nginx</div><div class="line">sudo systemctl enable nginx</div></pre></td></tr></table></figure>
+<blockquote>
+<p>SELinux已禁用。如果不是这样，您可能需要运行以下命令使Kibana正常工作：<br>sudo setsebool -P httpd_can_network_connect 1</p>
+</blockquote>
+<ul>
+<li>访问kibana，输入上面设置的kibanaadmin, password</li>
+</ul>
+<p><img src="http://img.blog.csdn.net/20170104152546726?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2gyMTEyMTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<blockquote>
+<p>上图可以看出kibana已经安装成功，需要配置一个 索引模式</p>
+</blockquote>
+<h2 id="安装Logstash"><a href="#安装Logstash" class="headerlink" title="安装Logstash"></a>安装Logstash</h2><blockquote>
+<p>创建Logstash源</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"># 导入公共签名密钥</div><div class="line">rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch</div><div class="line"></div><div class="line"># 将以下内容添加到具有.repo后缀的文件中的/etc/yum.repos.d/目录中，如logstash.repo</div><div class="line">echo &apos;[logstash-5.x]</div><div class="line">name=Elastic repository for 5.x packages</div><div class="line">baseurl=https://artifacts.elastic.co/packages/5.x/yum</div><div class="line">gpgcheck=1</div><div class="line">gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch</div><div class="line">enabled=1</div><div class="line">autorefresh=1</div><div class="line">type=rpm-md</div><div class="line">&apos; | sudo tee /etc/yum.repos.d/logstash.repo</div></pre></td></tr></table></figure>
+<blockquote>
+<p>使用yum安装logstash</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum makecache &amp;&amp; yum install logstash -y</div></pre></td></tr></table></figure>
+<h3 id="生成SSL证书"><a href="#生成SSL证书" class="headerlink" title="生成SSL证书"></a>生成SSL证书</h3><blockquote>
+<p>由于我们将使用Filebeat将日志从我们的客户端服务器发送到我们的ELK服务器，我们需要创建一个SSL证书和密钥对。 Filebeat使用该证书来验证ELK Server的身份。使用以下命令创建将存储证书和私钥的目录：</p>
+<p>使用以下命令（在ELK服务器的FQDN中替换）在适当的位置（/etc/pki/tls/ …）中生成SSL证书和私钥：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">cd /etc/pki/tls</div><div class="line">sudo openssl req -subj &apos;/CN=ELK_server_fqdn/&apos; -x509 -days 3650 -batch -nodes -newkey rsa:2048 -keyout private/logstash-forwarder.key -out certs/logstash-forwarder.crt</div><div class="line"></div><div class="line"># 注：ELK_server_fqdn自定义，示例如下：</div><div class="line">[root@linuxprobe ~]# cd /etc/pki/tls</div><div class="line">[root@linuxprobe tls]# sudo openssl req -subj &apos;/CN=kibana.aniu.co/&apos; -x509 -days 3650 -batch -nodes -newkey rsa:2048 -keyout private/logstash-forwarder.key -out certs/logstash-forwarder.crt</div><div class="line">Generating a 2048 bit RSA private key</div><div class="line">.+++</div><div class="line">...........................................................................................................+++</div><div class="line">writing new private key to &apos;private/logstash-forwarder.key&apos;</div><div class="line">-----</div></pre></td></tr></table></figure>
+<blockquote>
+<p>logstash-forwarder.crt文件将被复制到，所有将日志发送到Logstash的服务器</p>
+</blockquote>
+<h3 id="配置Logstash"><a href="#配置Logstash" class="headerlink" title="配置Logstash"></a>配置Logstash</h3><blockquote>
+<p>Logstash配置文件为JSON格式，驻留在/etc/logstash/conf.d中。该配置由三个部分组成：输入，过滤和输出。</p>
+<p>创建一个名为01-beats-input.conf的配置文件，并设置我们的“filebeat”输入：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vi /etc/logstash/conf.d/01-beats-input.conf</div></pre></td></tr></table></figure>
+<blockquote>
+<p>插入以下输入配置</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">input &#123;</div><div class="line">  beats &#123;</div><div class="line">    port =&gt; 5044</div><div class="line">    ssl =&gt; true</div><div class="line">    ssl_certificate =&gt; &quot;/etc/pki/tls/certs/logstash-forwarder.crt&quot;</div><div class="line">    ssl_key =&gt; &quot;/etc/pki/tls/private/logstash-forwarder.key&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>保存退出，监听TCP 5044端口上beats 输入，使用上面创建的SSL证书加密</p>
+<p>创建一个名为10-syslog-filter.conf的配置文件，我们将为syslog消息添加一个过滤器：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/logstash/conf.d/10-syslog-filter.conf</div></pre></td></tr></table></figure>
+<blockquote>
+<p>插入以下输入配置</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">filter &#123;</div><div class="line">  if [type] == &quot;syslog&quot; &#123;</div><div class="line">    grok &#123;</div><div class="line">      match =&gt; &#123; &quot;message&quot; =&gt; &quot;%&#123;SYSLOGTIMESTAMP:syslog_timestamp&#125; %&#123;SYSLOGHOST:syslog_hostname&#125; %&#123;DATA:syslog_program&#125;(?:\[%&#123;POSINT:syslog_pid&#125;\])?: %&#123;GREEDYDATA:syslog_message&#125;&quot; &#125;</div><div class="line">      add_field =&gt; [ &quot;received_at&quot;, &quot;%&#123;@timestamp&#125;&quot; ]</div><div class="line">      add_field =&gt; [ &quot;received_from&quot;, &quot;%&#123;host&#125;&quot; ]</div><div class="line">    &#125;</div><div class="line">    syslog_pri &#123; &#125;</div><div class="line">    date &#123;</div><div class="line">      match =&gt; [ &quot;syslog_timestamp&quot;, &quot;MMM  d HH:mm:ss&quot;, &quot;MMM dd HH:mm:ss&quot; ]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>save和quit。此过滤器查找标记为“syslog”类型（由Filebeat）的日志，并且将尝试使用grok解析传入的syslog日志，以使其结构化和可查询。</p>
+</blockquote>
+<ul>
+<li>创建一个名为logstash-simple的配置文件,示例文件：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/logstash/conf.d/logstash-simple.conf</div></pre></td></tr></table></figure>
+<ul>
+<li>插入以下输入配置</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">input &#123; stdin &#123; &#125; &#125;</div><div class="line">output &#123;</div><div class="line">  elasticsearch &#123; hosts =&gt; [&quot;localhost:9200&quot;] &#125;</div><div class="line">  stdout &#123; codec =&gt; rubydebug &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>这个输出基本上配置Logstash来存储input数据到Elasticsearch中，运行在localhost：9200</p>
+</blockquote>
+<h3 id="运行Logstash使用Systemd"><a href="#运行Logstash使用Systemd" class="headerlink" title="运行Logstash使用Systemd"></a>运行Logstash使用Systemd</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo systemctl start logstash.service</div><div class="line">sudo systemctl enable logstash.service</div></pre></td></tr></table></figure>
+<blockquote>
+<p>注： 到这里可能会出现Logstash重启失败，等问题，查看日志，锁定具体问题，一般不会出错</p>
+</blockquote>
+<h2 id="加载Kibana仪表板"><a href="#加载Kibana仪表板" class="headerlink" title="加载Kibana仪表板"></a>加载Kibana仪表板</h2><blockquote>
+<p>Elastic提供了几个样例Kibana仪表板和Beats索引模式，可以帮助我们开始使用Kibana。虽然我们不会在本教程中使用仪表板，我们仍将加载它们，以便我们可以使用它包括的Filebeat索引模式。</p>
+<p>首先，将示例仪表板归档下载到您的主目录：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd /usr/local/src</div><div class="line">curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.1.0.zip</div></pre></td></tr></table></figure>
+<blockquote>
+<p>安装unzip包，解压beats</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo yum -y install unzip</div><div class="line">unzip beats-dashboards-*.zip</div><div class="line">./load.sh</div></pre></td></tr></table></figure>
+<blockquote>
+<p>这些是我们刚加载的索引模式：</p>
+</blockquote>
+<ul>
+<li>[packetbeat-]YYYY.MM.DD</li>
+<li>[topbeat-]YYYY.MM.DD</li>
+<li>[filebeat-]YYYY.MM.DD</li>
+<li>[winlogbeat-]YYYY.MM.DD</li>
+</ul>
+<blockquote>
+<p>我们开始使用Kibana时，我们将选择Filebeat索引模式作为默认值。</p>
+</blockquote>
+<p>##在Elasticsearch中加载Filebeat索引模板</p>
+<blockquote>
+<p>因为我们计划使用Filebeat将日志发送到Elasticsearch，我们应该加载Filebeat索引模板。索引模板将配置Elasticsearch以智能方式分析传入的Filebeat字段。</p>
+<p>首先，将Filebeat索引模板下载到您的主目录：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd /usr/local/src</div><div class="line">curl -O https://gist.githubusercontent.com/thisismitch/3429023e8438cc25b86c/raw/d8c479e2a1adcea8b1fe86570e42abab0f10f364/filebeat-index-template.json</div></pre></td></tr></table></figure>
+<blockquote>
+<p>然后使用此命令加载模板：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># 注：执行命令的位置和json模板相同</div><div class="line"></div><div class="line">[root@linuxprobe src]# curl -XPUT &apos;http://localhost:9200/_template/filebeat?pretty&apos; -d@filebeat-index-template.json</div><div class="line">&#123;</div><div class="line">  &quot;acknowledged&quot; : true</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>现在我们的ELK服务器已准备好接收Filebeat数据，移动到在每个客户端服务器上设置Filebeat。</p>
+</blockquote>
+<h2 id="设置Filebeat（添加客户端服务器）"><a href="#设置Filebeat（添加客户端服务器）" class="headerlink" title="设置Filebeat（添加客户端服务器）"></a>设置Filebeat（添加客户端服务器）</h2><blockquote>
+<p>对于要将日志发送到ELK服务器的每个CentOS或RHEL 7服务器，请执行以下步骤。</p>
+</blockquote>
+<h3 id="复制ssl证书"><a href="#复制ssl证书" class="headerlink" title="复制ssl证书"></a>复制ssl证书</h3><blockquote>
+<p>在ELK服务器上，将先决条件教程中创建的SSL证书复制到客户端服务器：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># 使用SCP远程实现复制</div><div class="line">yum -y install openssh-clinets</div><div class="line"></div><div class="line"># </div><div class="line">scp /etc/pki/tls/certs/logstash-forwarder.crt root@linux-node1:/tmp</div><div class="line"></div><div class="line"># 注：如果不适用ip，记得在ELK服务器上设置hosts</div></pre></td></tr></table></figure>
+<blockquote>
+<p>在提供您的登录凭据后，请确保证书复制成功。它是客户端服务器和ELK服务器之间的通信所必需的,在客户端服务器上，将ELK服务器的SSL证书复制到适当的位置（/etc/pki/tls/certs）:</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@linux-node1 ~]# sudo mkdir -p /etc/pki/tls/certs</div><div class="line">[root@linux-node1 ~]# sudo cp /tmp/logstash-forwarder.crt /etc/pki/tls/certs/</div></pre></td></tr></table></figure>
+<h3 id="安装Filebeat包"><a href="#安装Filebeat包" class="headerlink" title="安装Filebeat包"></a>安装Filebeat包</h3><blockquote>
+<p>在客户端服务器上，创建运行以下命令将Elasticsearch公用GPG密钥导入rpm：参考上面：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">sudo rpm --import http://packages.elastic.co/GPG-KEY-elasticsearch</div><div class="line">#</div><div class="line">echo &apos;[elasticsearch-5.x]</div><div class="line">name=Elasticsearch repository for 5.x packages</div><div class="line">baseurl=https://artifacts.elastic.co/packages/5.x/yum</div><div class="line">gpgcheck=1</div><div class="line">gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch</div><div class="line">enabled=1</div><div class="line">autorefresh=1</div><div class="line">type=rpm-md</div><div class="line">&apos; | sudo tee /etc/yum.repos.d/elasticsearch.repo</div></pre></td></tr></table></figure>
+<blockquote>
+<p>源创建完成之后使用yum安装filebeat</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">yum makecache &amp;&amp; yum install filebeat -y</div><div class="line">sudo chkconfig --add filebeat</div></pre></td></tr></table></figure>
+<h3 id="配置filebeat"><a href="#配置filebeat" class="headerlink" title="配置filebeat"></a>配置filebeat</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">[root@linux-node1 ~]# egrep -v &quot;#|^$&quot; /etc/filebeat/filebeat.yml </div><div class="line">filebeat.prospectors:</div><div class="line">- input_type: log</div><div class="line">  paths:</div><div class="line">    - /var/log/secure         # 新增</div><div class="line">    - /var/log/messages       # 新增</div><div class="line">    - /var/log/*.log</div><div class="line">output.elasticsearch:</div><div class="line">  hosts: [&quot;localhost:9200&quot;]</div><div class="line">output.logstash:</div><div class="line">  hosts: [&quot;kibana.aniu.co:5044&quot;]   # 修改为ELK上Logstash的连接方式</div><div class="line">  ssl.certificate_authorities: [&quot;/etc/pki/tls/certs/logstash-forwarder.crt&quot;] # 新增</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Filebeat的配置文件是YAML格式的，注意缩进</p>
+</blockquote>
+<ul>
+<li>启动filebeat</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo systemctl start filebeat</div><div class="line">sudo systemctl enable filebeat</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注：客户端前提是已经配置完成elasticsearch服务，并且设置好域名解析</strong><br>filebeat启动完成后，可以观察ELK上面的journalctl -f和logstash，以及客户端的filebeat日志，查看filebeat是否生效</p>
+</blockquote>
+<h3 id="连接Kibana"><a href="#连接Kibana" class="headerlink" title="连接Kibana"></a>连接Kibana</h3><blockquote>
+<p>参考官方文档设置：<br><a href="https://www.elastic.co/guide/en/kibana/5.x/index.html" target="_blank" rel="external">https://www.elastic.co/guide/en/kibana/5.x/index.html</a></p>
+</blockquote>
+<p><img src="http://img.blog.csdn.net/20170104203800524?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2gyMTEyMTI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<blockquote>
+<p>到此我们完成了ELK基础环境的搭建，后面教程具体实现每个服务的具体功能，以及相关插件的使用。</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;使用Logstash和Kibana在CentOS-7上集中日志记录&quot;&gt;&lt;a href=&quot;#使用Logstash和Kibana在CentOS-7上集中日志记录&quot; class=&quot;headerlink&quot; title=&quot;使用Logstash和Kibana在CentOS 7
+    
+    </summary>
+    
+      <category term="elk" scheme="http://itdevops.me/categories/elk/"/>
+    
+    
+      <category term="elk" scheme="http://itdevops.me/tags/elk/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Jenkins + Maven + SonarQube 构建代码质量检测平台</title>
     <link href="http://itdevops.me/Jenkins-Maven-SonarQube.html"/>
     <id>http://itdevops.me/Jenkins-Maven-SonarQube.html</id>
     <published>2017-09-08T08:03:14.554Z</published>
-    <updated>2017-09-08T08:04:29.701Z</updated>
+    <updated>2017-09-08T08:12:50.132Z</updated>
     
     <content type="html"><![CDATA[<h1 id="使用SonarQube扫描仪分析Maven"><a href="#使用SonarQube扫描仪分析Maven" class="headerlink" title="使用SonarQube扫描仪分析Maven"></a>使用SonarQube扫描仪分析Maven</h1><h2 id="安装jenkins"><a href="#安装jenkins" class="headerlink" title="安装jenkins"></a>安装jenkins</h2><ul>
 <li>参考：<a href="http://blog.csdn.net/wh211212/article/details/53644980" target="_blank" rel="external">http://blog.csdn.net/wh211212/article/details/53644980</a></li>
