@@ -3,6 +3,27 @@
 
 
     
+    
+  <url>
+    <loc>http://itdevops.me/install-ovirt-4.2.html</loc>
+    <lastmod>2018-06-15T00:41:39.278Z</lastmod>
+    <data>
+        <display>
+        <title>安装虚拟化环境管理工具oVirt</title>
+        <pubTime>2018-07-14T09:47:44.000Z</pubTime>
+        
+        <tag>ovirt</tag>
+         
+         
+           
+             
+              <breadCrumb title="ovirt" url="http://itdevops.me/categories/ovirt/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://itdevops.me/Jenkins-Maven-SonarQube.html</loc>
     <lastmod>2017-09-08T08:28:33.329Z</lastmod>
@@ -306,7 +327,6 @@
     </data>
     </url>
 
-    
     
     
     

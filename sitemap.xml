@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://itdevops.me/about/index.html</loc>
+    
+    <lastmod>2018-06-15T00:41:59.703Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://itdevops.me/install-ovirt-4.2.html</loc>
+    
+    <lastmod>2018-06-15T00:41:39.278Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://itdevops.me/Jenkins-Maven-SonarQube.html</loc>
     
     <lastmod>2017-09-08T08:28:33.329Z</lastmod>
@@ -117,13 +131,6 @@
     <loc>http://itdevops.me/tags/index.html</loc>
     
     <lastmod>2017-07-12T14:40:33.595Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://itdevops.me/about/index.html</loc>
-    
-    <lastmod>2017-07-12T14:38:45.973Z</lastmod>
     
   </url>
   
