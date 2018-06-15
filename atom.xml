@@ -116,6 +116,141 @@
   </entry>
   
   <entry>
+    <title></title>
+    <link href="http://itdevops.me/vm-template.html"/>
+    <id>http://itdevops.me/vm-template.html</id>
+    <published>2018-06-15T00:55:33.370Z</published>
+    <updated>2018-06-15T00:55:33.370Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="ovirt-上创建vm模板"><a href="#ovirt-上创建vm模板" class="headerlink" title="ovirt 上创建vm模板"></a>ovirt 上创建vm模板</h1><h2 id="安装初始化虚拟机CentOS7-（笔者虚机暂时只有C7，C6），后面会加入更多的镜像及vm模板"><a href="#安装初始化虚拟机CentOS7-（笔者虚机暂时只有C7，C6），后面会加入更多的镜像及vm模板" class="headerlink" title="安装初始化虚拟机CentOS7 （笔者虚机暂时只有C7，C6），后面会加入更多的镜像及vm模板"></a>安装初始化虚拟机CentOS7 （笔者虚机暂时只有C7，C6），后面会加入更多的镜像及vm模板</h2><ul>
+<li>如下如：以aniu-ecs-03为例：</li>
+</ul>
+<p><img src="https://img-blog.csdn.net/20180417154058788?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doMjExMjEy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>当我们安装完成虚拟机后，ovirt管理控制台是不能正常获取到虚拟机的ip地址和主机名的，（Ovirt无法获取 IP Addresses 和 FQDN），因此我们需要安装ovirt-guest-agent-common软件包，然后启动ovirt-guest-agent服务，这个程序会获取vm的FQDN和ip上传到ovirt engine展示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"># C7添加ovirt源</div><div class="line">[root@localhost ~]# yum -y install http://resources.ovirt.org/pub/yum-repo/ovirt-release42.rpm</div><div class="line"></div><div class="line"># 安装ovirt agent tools</div><div class="line">[root@localhost ~]# yum install ovirt-guest-agent-common -y</div><div class="line"></div><div class="line"># 启动ovirt-guest-agent，并设置自启</div><div class="line"></div><div class="line"># 参考：https://www.ovirt.org/documentation/vmm-guide/chap-Installing_Linux_Virtual_Machines/</div><div class="line">[root@localhost ~]# systemctl start qemu-guest-agent.service</div><div class="line">[root@localhost ~]# systemctl enable qemu-guest-agent.service</div><div class="line"></div><div class="line"># 查看ovirt agent启动状态</div><div class="line">[root@localhost ~]# systemctl status qemu-guest-agent</div><div class="line">● qemu-guest-agent.service - QEMU Guest Agent</div><div class="line">   Loaded: loaded (/usr/lib/systemd/system/qemu-guest-agent.service; enabled; vendor preset: enabled)</div><div class="line">   Active: active (running) since Tue 2018-04-17 15:52:20 CST; 1min 18s ago</div><div class="line"> Main PID: 7881 (qemu-ga)</div><div class="line">   CGroup: /system.slice/qemu-guest-agent.service</div><div class="line">           └─7881 /usr/bin/qemu-ga --method=virtio-serial --path=/dev/virtio-ports/org.qemu.guest_agent.0 --blacklist=guest-file-open,guest-file-close,guest-file-read,guest-file-write,guest-file...</div><div class="line"></div><div class="line">Apr 17 15:52:20 localhost.localdomain systemd[1]: Started QEMU Guest Agent.</div><div class="line">Apr 17 15:52:20 localhost.localdomain systemd[1]: Starting QEMU Guest Agent...</div><div class="line">[root@localhost ~]# systemctl status qemu-guest-agent</div><div class="line"></div><div class="line"># 启动ovirt-guest-agent # 笔者这里启动了两个服务ovirt-guest-agent和qemu-guest-agent</div><div class="line">[root@localhost ~]# systemctl start ovirt-guest-agent</div><div class="line">[root@localhost ~]# systemctl enable ovirt-guest-agent</div><div class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/ovirt-guest-agent.service to /usr/lib/systemd/system/ovirt-guest-agent.service.</div><div class="line">[root@localhost ~]# systemctl status ovirt-guest-agent</div><div class="line">● ovirt-guest-agent.service - oVirt Guest Agent</div><div class="line">   Loaded: loaded (/usr/lib/systemd/system/ovirt-guest-agent.service; enabled; vendor preset: disabled)</div><div class="line">   Active: active (running) since Tue 2018-04-17 16:00:05 CST; 11s ago</div><div class="line"> Main PID: 7945 (python)</div><div class="line">   CGroup: /system.slice/ovirt-guest-agent.service</div><div class="line">           └─7945 /usr/bin/python /usr/share/ovirt-guest-agent/ovirt-guest-agent.py</div><div class="line"></div><div class="line">Apr 17 16:00:05 localhost.localdomain systemd[1]: Starting oVirt Guest Agent...</div><div class="line">Apr 17 16:00:05 localhost.localdomain systemd[1]: Started oVirt Guest Agent.</div><div class="line">Apr 17 16:00:06 localhost.localdomain userhelper[7955]: pam_succeed_if(ovirt-container-list:auth): requirement &quot;user = ovirtagent&quot; was met by user &quot;ovirtagent&quot;</div><div class="line">Apr 17 16:00:06 localhost.localdomain userhelper[7954]: pam_succeed_if(ovirt-container-list:auth): requirement &quot;user = ovirtagent&quot; was met by user &quot;ovirtagent&quot;</div><div class="line">Apr 17 16:00:06 localhost.localdomain userhelper[7954]: running &apos;/usr/share/ovirt-guest-agent/container-list&apos; with root privileges on behalf of &apos;ovirtagent&apos;</div><div class="line">Apr 17 16:00:06 localhost.localdomain userhelper[7955]: running &apos;/usr/share/ovirt-guest-agent/container-list&apos; with root privileges on behalf of &apos;ovirtagent&apos;</div><div class="line">Apr 17 16:00:06 localhost.localdomain userhelper[7965]: pam_succeed_if(ovirt-locksession:auth): requirement &quot;user = ovirtagent&quot; was met by user &quot;ovirtagent&quot;</div><div class="line">Apr 17 16:00:06 localhost.localdomain userhelper[7965]: running &apos;/usr/share/ovirt-guest-agent/LockActiveSession.py&apos; with root privileges on behalf of &apos;ovirtagent&apos;</div><div class="line">Apr 17 16:00:15 localhost.localdomain userhelper[7987]: pam_succeed_if(ovirt-container-list:auth): requirement &quot;user = ovirtagent&quot; was met by user &quot;ovirtagent&quot;</div><div class="line">Apr 17 16:00:15 localhost.localdomain userhelper[7987]: running &apos;/usr/share/ovirt-guest-agent/container-list&apos; with root privileges on behalf of &apos;ovirtagent&apos;</div></pre></td></tr></table></figure>
+<ul>
+<li>等待一会到ovirt管理界面查看aniu-ecs-03是否能够正常显示ip和FQDN</li>
+</ul>
+<p><img src="https://img-blog.csdn.net/20180417160419801?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doMjExMjEy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>从上图可以看出，从ovirt控制面板能够ovirt engine已经获取到了vm的ip地址但是 FQDN貌似还没有获取到，笔者准备进行对vm进行一些初始化设置</p>
+<ul>
+<li>禁用IPV6及关闭selinux，笔者用不到</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"># 修改主机名编辑hosts</div><div class="line">[root@localhost ~]# hostnamectl set-hostname ecs-03</div><div class="line">[root@localhost ~]# cat /etc/hosts</div><div class="line">127.0.0.1   localhost localhost.localdomain</div><div class="line"></div><div class="line"># 建议修改配置文件关闭，需要重启</div><div class="line">sed -i &apos;s/SELINUX=enforcing/SELINUX=disabled/g&apos; /etc/selinux/config</div><div class="line"></div><div class="line">## 修改启动加载的内核参数</div><div class="line"></div><div class="line">[root@localhost ~]# vi /etc/default/grub</div><div class="line"># line 6: add</div><div class="line">GRUB_CMDLINE_LINUX=&quot;ipv6.disable=1 rd.lvm.lv=fedora-server/root.....</div><div class="line"># apply changing</div><div class="line">[root@localhost ~]# grub2-mkconfig -o /boot/grub2/grub.cfg </div><div class="line">[root@localhost ~]# reboot</div></pre></td></tr></table></figure>
+<p>再次到控制台查看aniu-ecs-03的ip和FQDN情况，如下：<br><img src="https://img-blog.csdn.net/20180417161209871?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doMjExMjEy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<h2 id="使用aniu-ecs-03创建vm模板"><a href="#使用aniu-ecs-03创建vm模板" class="headerlink" title="使用aniu-ecs-03创建vm模板"></a>使用aniu-ecs-03创建vm模板</h2><ul>
+<li>笔者的aniu-ecs-03规格为：Medium  2 cpu 4G mem  20G disk ，GMT China Standard Time，设置了HA，<br><img src="https://img-blog.csdn.net/20180417161628873?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doMjExMjEy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></li>
+</ul>
+<p>停止aniu-ecs-03，然后右上角选择make template，如下：<br><img src="https://img-blog.csdn.net/20180417164539704?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doMjExMjEy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>自定义模板名称，描述，点击ok确认创建模板：</p>
+<p><img src="https://img-blog.csdn.net/20180417171802468?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doMjExMjEy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<ul>
+<li>创建模板介绍先写到这里，笔者的想法是继续对vm完善，安装一些必须的依赖包，在进行创建模板。</li>
+</ul>
+<h2 id="创建模板后续"><a href="#创建模板后续" class="headerlink" title="创建模板后续"></a>创建模板后续</h2><ul>
+<li><a href="https://www.ovirt.org/documentation/how-to/virtual-machines/sealing-linux-vm/" target="_blank" rel="external">https://www.ovirt.org/documentation/how-to/virtual-machines/sealing-linux-vm/</a> ：参考设置更干净的vm模板</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;ovirt-上创建vm模板&quot;&gt;&lt;a href=&quot;#ovirt-上创建vm模板&quot; class=&quot;headerlink&quot; title=&quot;ovirt 上创建vm模板&quot;&gt;&lt;/a&gt;ovirt 上创建vm模板&lt;/h1&gt;&lt;h2 id=&quot;安装初始化虚拟机CentOS7-（笔者虚机
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://itdevops.me/ovirt-notifier-email.html"/>
+    <id>http://itdevops.me/ovirt-notifier-email.html</id>
+    <published>2018-06-15T00:55:03.512Z</published>
+    <updated>2018-06-15T00:55:03.513Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="ovirt告警邮件设置"><a href="#ovirt告警邮件设置" class="headerlink" title="ovirt告警邮件设置"></a>ovirt告警邮件设置</h1><h2 id="启用ovirt-engine-notifier服务来根据指定是事件发出邮件通知"><a href="#启用ovirt-engine-notifier服务来根据指定是事件发出邮件通知" class="headerlink" title="启用ovirt-engine-notifier服务来根据指定是事件发出邮件通知"></a>启用ovirt-engine-notifier服务来根据指定是事件发出邮件通知</h2><ul>
+<li>配置ovirt-engine-notifier</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"># 从174行开始修改</div><div class="line"># vi /usr/share/ovirt-engine/services/ovirt-engine-notifier/ovirt-engine-notifier.conf</div><div class="line"># The SMTP mail server address. Required.</div><div class="line">MAIL_SERVER=smtp.163.com</div><div class="line"></div><div class="line"># The SMTP port (usually 25 for plain SMTP, 465 for SMTP with SSL, 587 for SMTP with TLS)</div><div class="line">MAIL_PORT=465</div><div class="line"></div><div class="line"># Required if SSL or TLS enabled to authenticate the user. Used also to specify &apos;from&apos; user address if mail server</div><div class="line"># supports, when MAIL_FROM is not set. Address is in RFC822 format</div><div class="line">MAIL_USER=xxxxxx@163.com</div><div class="line"></div><div class="line"># Required to authenticate the user if mail server requires authentication or if SSL or TLS is enabled</div><div class="line">SENSITIVE_KEYS=&quot;$&#123;SENSITIVE_KEYS&#125;,MAIL_PASSWORD&quot;</div><div class="line">MAIL_PASSWORD=xxxxxx</div><div class="line"></div><div class="line"># Indicates type of encryption (none, ssl or tls) should be used to communicate with mail server.</div><div class="line">MAIL_SMTP_ENCRYPTION=ssl # 更改使用ssl，默认none收不到邮件</div><div class="line"></div><div class="line"># If set to true, sends a message in HTML format.</div><div class="line">HTML_MESSAGE_FORMAT=true</div><div class="line"></div><div class="line"># Specifies &apos;from&apos; address on sent mail in RFC822 format, if supported by mail server.</div><div class="line">MAIL_FROM=xxxxxx@163.com</div></pre></td></tr></table></figure>
+<ul>
+<li>管理界面配置</li>
+</ul>
+<blockquote>
+<p>在 ovirt-engine “管理”-“用户” ,选定用户（admin），在下方的菜单中选择：“事件通知器”-“管理事件”,选定需要告警的事件，配置邮件接收者。</p>
+</blockquote>
+<ul>
+<li>配置完成，启动服务：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># systemctl start ovirt-engine-notifier     </div><div class="line"># systemctl enable ovirt-engine-notifier</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;ovirt告警邮件设置&quot;&gt;&lt;a href=&quot;#ovirt告警邮件设置&quot; class=&quot;headerlink&quot; title=&quot;ovirt告警邮件设置&quot;&gt;&lt;/a&gt;ovirt告警邮件设置&lt;/h1&gt;&lt;h2 id=&quot;启用ovirt-engine-notifier服务来根据指
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://itdevops.me/ovirt-guset-agent.html"/>
+    <id>http://itdevops.me/ovirt-guset-agent.html</id>
+    <published>2018-06-15T00:54:53.736Z</published>
+    <updated>2018-06-15T00:54:53.736Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="ovirt-guest-agent-安装"><a href="#ovirt-guest-agent-安装" class="headerlink" title="ovirt guest agent 安装"></a>ovirt guest agent 安装</h1><h2 id="CentOS"><a href="#CentOS" class="headerlink" title="CentOS"></a>CentOS</h2><ul>
+<li>如何在CentOS中安装guest代理(CentOS7)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># 通过终端使用YUM来安装oVirt Guest Tools</div><div class="line">sudo yum install centos-release-ovirt42</div><div class="line">sudo yum install ovirt-guest-agent-common</div></pre></td></tr></table></figure>
+<ul>
+<li>CentOS6</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo yum install centos-release-ovirt36</div><div class="line">yum install ovirt-guest-agent -y</div><div class="line">/etc/init.d/ovirt-guest-agent start</div><div class="line">chkconfig ovirt-guest-agent on</div></pre></td></tr></table></figure>
+<ul>
+<li>开始服务</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo systemctl enable --now ovirt-guest-agent.service</div></pre></td></tr></table></figure>
+<ul>
+<li>查看状态排错</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo systemctl status ovirt-guest-agent.service</div></pre></td></tr></table></figure>
+<h2 id="Debian"><a href="#Debian" class="headerlink" title="Debian"></a>Debian</h2><ul>
+<li>如何在Debian中安装guest代理</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># 使用apt-get通过终端安装oVirt Guest Tools</div><div class="line"> # echo &quot;deb http://download.opensuse.org/repositories/home:/evilissimo:/deb/Debian_7.0/ ./&quot; &gt;&gt; /etc/apt/sources.list</div><div class="line"> # gpg -v -a --keyserver http://download.opensuse.org/repositories/home:/evilissimo:/deb/Debian_7.0/Release.key --recv-keys D5C7F7C373A1A299</div><div class="line"> # gpg --export --armor 73A1A299 | apt-key add -</div><div class="line"> # apt-get update</div><div class="line"> # apt-get install ovirt-guest-agent</div><div class="line"></div><div class="line"># 使用gnome中的添加/删除软件安装oVirt Guest Tools</div></pre></td></tr></table></figure>
+<ul>
+<li>开始服务</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#su -</div><div class="line">#service ovirt-guest-agent enable &amp;&amp;  service ovirt-guest-agent start</div></pre></td></tr></table></figure>
+<ul>
+<li>查看状态排错</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># su -</div><div class="line"># service ovirt-guest-agent start</div></pre></td></tr></table></figure>
+<h2 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h2><ul>
+<li>如何在Ubuntu中安装guest代理(Ubuntu 16.04)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># 使用apt-get通过终端安装oVirt Guest Tools</div><div class="line"># sudo nano -w /etc/apt/sources.list.d/ovirt-guest-agent.list</div><div class="line">deb http://download.opensuse.org/repositories/home:/evilissimo:/ubuntu:/16.04/xUbuntu_16.04/ /</div><div class="line"># wget http://download.opensuse.org/repositories/home:/evilissimo:/ubuntu:/16.04/xUbuntu_16.04//Release.key</div><div class="line"># sudo apt-key add - &lt; Release.key  </div><div class="line"># sudo apt-get update</div><div class="line"># sudo apt-get install ovirt-guest-agent</div></pre></td></tr></table></figure>
+<ul>
+<li>开始服务</li>
+</ul>
+<p>安装程序将自动启动ovirt-guest-agent并将其设置为在启动时自动启动。</p>
+<ul>
+<li>参考链接：<a href="https://www.ovirt.org/documentation/how-to/guest-agent/" target="_blank" rel="external">https://www.ovirt.org/documentation/how-to/guest-agent/</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;ovirt-guest-agent-安装&quot;&gt;&lt;a href=&quot;#ovirt-guest-agent-安装&quot; class=&quot;headerlink&quot; title=&quot;ovirt guest agent 安装&quot;&gt;&lt;/a&gt;ovirt guest agent 安装&lt;/h1&gt;&lt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>使用Logstash和Kibana在CentOS 7上集中日志记录</title>
     <link href="http://itdevops.me/centos7-elk.html"/>
     <id>http://itdevops.me/centos7-elk.html</id>
@@ -1799,6 +1934,267 @@
       <category term="python" scheme="http://itdevops.me/tags/python/"/>
     
       <category term="code" scheme="http://itdevops.me/tags/code/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Shell 进阶指南</title>
+    <link href="http://itdevops.me/awesome-shell.html"/>
+    <id>http://itdevops.me/awesome-shell.html</id>
+    <published>2017-07-15T09:47:44.000Z</published>
+    <updated>2017-07-15T11:07:22.763Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Awesome-Shell"><a href="#Awesome-Shell" class="headerlink" title="Awesome Shell "></a>Awesome Shell <a href="https://github.com/sindresorhus/awesome" target="_blank" rel="external"><img src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" alt="Awesome"></a></h1><p>这是一份非常棒的命令行框架、工具包、指南、以及小玩意儿组织清单。由 awesome-php 获得灵感。该 awesome 收集在 <a href="https://unix-shell.zeef.com/caleb.xu" target="_blank" rel="external">Unix-Shell.ZEEF.com</a> 上也可用。</p>
+<ul>
+<li><a href="#命令行效率">命令行效率</a></li>
+<li><a href="#定制">定制</a></li>
+<li><a href="#针对开发者">针对开发者</a></li>
+<li><a href="#系统工具">系统工具</a></li>
+<li><a href="#下载与服务">下载与服务</a></li>
+<li><a href="#多媒体与文件格式">多媒体与文件格式</a></li>
+<li><a href="#应用程序">应用程序</a></li>
+<li><a href="#游戏">游戏</a></li>
+<li><a href="#shell-包管理">Shell 包管理</a></li>
+<li><a href="#shell-脚本开发">Shell 脚本开发</a></li>
+<li><a href="#指南">指南</a></li>
+<li><a href="https://github.com/unixorn/awesome-zsh-plugins" target="_blank" rel="external"><strong>Awesome Zsh</strong></a>&nbsp; <a href="https://github.com/unixorn/awesome-zsh-plugins" target="_blank" rel="external"><img src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" alt="Awesome"></a></li>
+<li><a href="https://github.com/jbucaran/awesome-fish" target="_blank" rel="external"><strong>Awesome Fish</strong></a> <a href="https://github.com/jbucaran/awesome-fish" target="_blank" rel="external"><img src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" alt="Awesome"></a></li>
+<li><a href="#其它-awesome-清单">其它 Awesome 清单</a></li>
+</ul>
+<h2 id="命令行效率"><a href="#命令行效率" class="headerlink" title="命令行效率"></a>命令行效率</h2><p><em>使你的终端体验更有效率的搜索、书签、多路复用、以及其它工具。</em></p>
+<ul>
+<li><a href="https://github.com/ggreer/the_silver_searcher" target="_blank" rel="external">ag</a> - 在层级目录中超快的搜索字符串</li>
+<li><a href="https://github.com/sebglazebrook/aliases" target="_blank" rel="external">aliases</a> - 针对 bash 的上下文动态组织别名</li>
+<li><a href="https://github.com/Jintin/aliasme" target="_blank" rel="external">aliasme</a> - 用来快速更改目录的 alias 辅助程序</li>
+<li><a href="https://github.com/kennethreitz/autoenv" target="_blank" rel="external">autoenv</a> - 基于目录的环境</li>
+<li><a href="https://github.com/wting/autojump" target="_blank" rel="external">autojump</a> - 自带学习功能的 cd 命令，从命令行轻易地导航目录</li>
+<li><a href="https://github.com/rcaloras/bashhub-client" target="_blank" rel="external">bashhub</a> - :cloud: 在云中的 bash 历史，已索引且可搜索。</li>
+<li><a href="https://github.com/huyng/bashmarks" target="_blank" rel="external">bashmarks</a> - 适用于 shell 的目录书签</li>
+<li><a href="https://github.com/vigneshwaranr/bd" target="_blank" rel="external">bd</a> - 迅速回到父目录</li>
+<li><a href="https://github.com/tmrts/boilr" target="_blank" rel="external">boilr</a> - 从 boilerplate 模板创建项目的超快命令行工具</li>
+<li><a href="https://github.com/holman/boom" target="_blank" rel="external">boom</a> - 在命令行中存储链接及片断</li>
+<li><a href="https://github.com/ok-borg/borg" target="_blank" rel="external">borg</a> - 基于终端的 bash 命令搜索引擎</li>
+<li><a href="http://byobu.co/" target="_blank" rel="external">byobu</a> - 基于文本的窗口管理器及终端多路复用器</li>
+<li><a href="https://github.com/shyiko/commacd" target="_blank" rel="external">commacd</a> - 在 Bash 中更快速的移动方式</li>
+<li><a href="https://github.com/jamesob/desk" target="_blank" rel="external">desk</a> - 适用于 shell 的轻量级工作区管理器</li>
+<li><a href="https://github.com/direnv/direnv" target="_blank" rel="external">direnv</a> - 针对 shell 的环境切换工具（利用 autoenv 比较）</li>
+<li><a href="https://github.com/b4b4r07/enhancd" target="_blank" rel="external">enhancd</a> - :rocket: 具有交互式过滤功能的下一代 cd 命令</li>
+<li><a href="https://github.com/clvv/fasd" target="_blank" rel="external">fasd</a> - 命令行效率提升器，提供快速访问文件及目录</li>
+<li><a href="https://github.com/s-p-k/foxy" target="_blank" rel="external">foxy</a> - 适合 Firefox 及 Surf 浏览器的无格式文本书签</li>
+<li><a href="https://github.com/changyuheng/fz" target="_blank" rel="external">fz</a> - z 的无缝模糊补全</li>
+<li><a href="https://github.com/junegunn/fzf" target="_blank" rel="external">fzf</a> - 命令行下的模糊搜索器</li>
+<li><a href="https://github.com/paoloantinori/hhighlighter" target="_blank" rel="external">hhighlighter</a> - 在命令输出中给单词着色</li>
+<li><a href="https://github.com/LuRsT/hr" target="_blank" rel="external">hr</a> - 适用于终端的 <code>&lt;hr /&gt;</code></li>
+<li><a href="https://github.com/dvorka/hstr" target="_blank" rel="external">hstr</a> - Bash 历史建议框</li>
+<li><a href="https://github.com/supercrabtree/k" target="_blank" rel="external">k</a> - k 是一个使目录列表更可读的 Zsh 脚本，它增添了 Git 状态、文件颜色、以及腐朽的日期</li>
+<li><a href="https://github.com/lingtalfi/k" target="_blank" rel="external">k alias</a> - 获得用于单行的酷 alias</li>
+<li><a href="https://github.com/pindexis/marker" target="_blank" rel="external">marker</a> - 将你的 shell 命令加到书签</li>
+<li><a href="http://www.gnu.org/software/parallel/" target="_blank" rel="external">parallel</a> - 以并行化方式从标准输入构造并执行 shell 命令行</li>
+<li><a href="https://github.com/facebook/PathPicker" target="_blank" rel="external">pathpicker</a> - 允许将 grep、搜索、git 等的输出结果作为输入，并提供友好的选择界面，以便打开或作为命令的参数</li>
+<li><a href="https://github.com/mooz/percol" target="_blank" rel="external">percol</a> - 为传统的 UNIX shell 管道添加交互式的过滤</li>
+<li><a href="https://github.com/pindexis/qfc" target="_blank" rel="external">qfc</a> - 针对 Bash 和 Zsh 的文件补全 widget</li>
+<li><a href="https://github.com/odb/shml" target="_blank" rel="external">SHML</a> - 适用于终端的样式框架 (Shell 标记语言)</li>
+<li><a href="https://github.com/benlinton/slugify" target="_blank" rel="external">slugify</a> - 将文件名及目录转换为 web 友好的格式</li>
+<li><a href="https://github.com/tokozedg/sman" target="_blank" rel="external">sman</a> - :bug: 命令行下的片断管理器</li>
+<li><a href="https://github.com/holman/spark" target="_blank" rel="external">spark</a> - ▁▂▃▅▂▇ 在你的 shell 中</li>
+<li><a href="https://github.com/fisherman/shark" target="_blank" rel="external">Shark</a> - ▁▂▃▅ Sparkline 生成器</li>
+<li><a href="https://github.com/oscardelben/sheet" target="_blank" rel="external">sheet</a> -  用于命令行的文本片断</li>
+<li><a href="https://github.com/rauchg/spot" target="_blank" rel="external">spot</a> - 微型的文件搜索工具</li>
+<li><a href="https://github.com/srijanshetty/snips" target="_blank" rel="external">snips</a> - 管理代码片断的命令行工具</li>
+<li><a href="https://github.com/osxfuse/sshfs" target="_blank" rel="external">sshfs</a> - 通过 SSH 挂载远程文件系统的工具</li>
+<li><a href="https://sourceforge.net/projects/sshpass/" target="_blank" rel="external">sshpass</a> - 通过命令行传递ssh密码，无需再次输入，适合用于脚本之中</li>
+<li><a href="https://sourceforge.net/projects/autossh/" target="_blank" rel="external">autossh</a> - 自动重启ssh通道和会话</li>
+<li><a href="https://mosh.org" target="_blank" rel="external">mosh</a> - 第一个实现SSP的应用，MIT的博士项目，使得C/S之间可以保持链接持续，即使断开还能恢复之前的状态</li>
+<li><a href="https://github.com/Russell91/sshrc" target="_blank" rel="external">sshrc</a> - SSH 时带上你的 .bashrc、.vimrc 等</li>
+<li><a href="https://github.com/badarsh2/Sudocabulary" target="_blank" rel="external">sudocabulary</a> - 从终端学习英语词汇</li>
+<li><a href="https://github.com/nvbn/thefuck" target="_blank" rel="external">thefuck</a> - 通过使用容易记住的命令修正常见的 shell 错误</li>
+<li><a href="http://tmux.github.io/" target="_blank" rel="external">tmux</a> - 很棒的终端复用器</li>
+<li><a href="https://github.com/shannonmoeller/up" target="_blank" rel="external">up</a> - 按名称或计数升序排列目录，支持 bash 和 zsh</li>
+<li><a href="https://github.com/rupa/v" target="_blank" rel="external">v</a> - 适用于 Vim 的 z</li>
+<li><a href="https://github.com/zolrath/wemux" target="_blank" rel="external">wemux</a> - 多用户使用 Tmux 变得更容易</li>
+<li><a href="https://github.com/rupa/z" target="_blank" rel="external">z</a> - z 是新的 j</li>
+</ul>
+<h2 id="定制"><a href="#定制" class="headerlink" title="定制"></a>定制</h2><p><em>定制提示符、颜色主题等。</em></p>
+<ul>
+<li><a href="https://github.com/chriskempson/base16-shell" target="_blank" rel="external">base16-shell</a> - 适用于 shell 的 Base16</li>
+<li><a href="https://github.com/slomkowski/bash-full-of-colors" target="_blank" rel="external">bash-full-of-colors</a> - 超强的命令行提示（含 screen、tmux、git 等支持）</li>
+<li><a href="https://github.com/magicmonty/bash-git-prompt" target="_blank" rel="external">bash-git-prompt</a> - 针对 Git 用户的信息及梦幻提示符</li>
+<li><a href="https://github.com/riobard/bash-powerline" target="_blank" rel="external">bash-powerline</a> - Powerline 风格的 Bash 提示符，纯 Bash 脚本</li>
+<li><a href="https://github.com/barryclark/bashstrap" target="_blank" rel="external">bashstrap</a> - 美化 OS X 终端的快速方法</li>
+<li><a href="https://github.com/caiogondim/bullet-train.zsh" target="_blank" rel="external">bullet-train-oh-my-zsh-theme</a> - :bullettrain_side: 基于 Powerline Vim 插件的 oh-my-zsh shell 主题</li>
+<li><a href="https://github.com/mrowa44/emojify" target="_blank" rel="external">emojify</a> - 适用于命令行的表情 :scream:</li>
+<li><a href="https://dribbble.com/shots/1021755-Flat-UI-Terminal-Theme" target="_blank" rel="external">flatui-terminal-theme</a> - 很好的终端颜色主题</li>
+<li><a href="https://github.com/lvv/git-prompt" target="_blank" rel="external">git-prompt</a> - 包含 Git、SVN 及 HG 模块的 Bash 提示符</li>
+<li><a href="https://github.com/momeni/gittify" target="_blank" rel="external">gittify</a> - 彩色的 Bash 提示符及定制的 Git 别名</li>
+<li><a href="https://github.com/Mayccoll/Gogh" target="_blank" rel="external">Gogh - Color Scheme</a> - 适用于 GNOME 终端的颜色主题</li>
+<li><a href="https://github.com/nojhan/liquidprompt" target="_blank" rel="external">liquidprompt</a> - 针对 Bash 和 Zsh 的全功能及用心设计的自适应提示符</li>
+<li><a href="https://github.com/zpm-zsh/mysql-colorize" target="_blank" rel="external">mysql-colorize</a> -  彩色的 MySQL 命令行客户端</li>
+<li><a href="https://github.com/arialdomartini/oh-my-git" target="_blank" rel="external">oh-my-git</a> - 针对 Bash 和 Zsh 的自用 Git 提示符</li>
+<li><a href="https://github.com/twolfson/sexy-bash-prompt" target="_blank" rel="external">sexy-bash-prompt</a> - 包含颜色、Git 状态及 Git 分支的 Bash 提示符</li>
+</ul>
+<h2 id="针对开发者"><a href="#针对开发者" class="headerlink" title="针对开发者"></a>针对开发者</h2><p><em>命令行开发、版本控制、以及部署。</em></p>
+<ul>
+<li><a href="https://github.com/p8952/bocker" target="_blank" rel="external">bocker</a> - 使用百行 bash 实现的 Docker</li>
+<li><a href="https://github.com/AlDanial/cloc" target="_blank" rel="external">cloc</a> - 统计代码行数</li>
+<li><a href="https://github.com/dokku/dokku" target="_blank" rel="external">dokku</a> - 百行 Bash 打造的 Docker 迷你 Heroku</li>
+<li><a href="https://github.com/fisherman/getopts" target="_blank" rel="external">getopts</a> - 适用于 fish 的命令行解析器</li>
+<li><a href="https://github.com/unixorn/git-extra-commands" target="_blank" rel="external">git-extra-commands</a> - 很多 Git 扩展工具，包括 churn、cut-branch、improved-merge 等</li>
+<li><a href="https://github.com/tj/git-extras" target="_blank" rel="external">git-extras</a> - Git 工具，包括仓库摘要、repl、更改日志人数、作者提交百分比等</li>
+<li><a href="https://github.com/paulirish/git-open" target="_blank" rel="external">git-open</a> - 输入 <code>git open</code> 在浏览器中打开 GitHub 页面或仓库网站</li>
+<li><a href="https://github.com/markchalloner/git-semver" target="_blank" rel="external">git-semver</a> - 用来方便的语义化版本及更改日志验证的 Git 插件</li>
+<li><a href="https://github.com/rtomayko/git-sh" target="_blank" rel="external">git-sh</a> - 适合 Git 工作的定制 Bash 环境</li>
+<li><a href="https://github.com/aanand/git-up" target="_blank" rel="external">git-up</a> - 自动变基进来的更改代替合并，优雅！</li>
+<li><a href="https://github.com/github/hub" target="_blank" rel="external">hub</a> - 更易使用 GitHub 的命令行工具</li>
+<li><a href="https://github.com/joeyh/myrepos" target="_blank" rel="external">mr</a> - 多仓库管理工具</li>
+<li><a href="https://github.com/brigade/overcommit" target="_blank" rel="external">overcommit</a> - 完全可配置且可扩展的 Git hook 管理器</li>
+<li><a href="http://pre-commit.com" target="_blank" rel="external">pre-commit</a> - 用于管理及维护多语言 pre-commit hooks 的框架</li>
+<li><a href="https://github.com/jlevy/repren" target="_blank" rel="external">repren</a> - 命令行搜索与替换及文件重命名的瑞士军刀式工具</li>
+<li><a href="https://github.com/slap-editor/slap" target="_blank" rel="external">slap</a> - 运行在 Node.js 上的基于终端的类 Sublime 文本编辑器</li>
+<li><a href="https://github.com/sapegin/shipit" target="_blank" rel="external">shipit</a> - 极简 SSH 部署</li>
+<li><a href="https://github.com/aykamko/tag" target="_blank" rel="external">tag</a> - 立即跳到你的公牛队比赛</li>
+</ul>
+<h2 id="系统工具"><a href="#系统工具" class="headerlink" title="系统工具"></a>系统工具</h2><p><em>操作系统相关工具，包括系统管理、系统调试、及文件和进程管理。</em></p>
+<ul>
+<li><a href="https://www.atoptool.nl" target="_blank" rel="external">atop</a> - 能够报告所有进程活动的 ASCII 全屏性能监视器</li>
+<li><a href="https://github.com/Xfennec/progress" target="_blank" rel="external">cv</a> - 显示 cp、rm、dd 等命令进度的 Linux 工具</li>
+<li><a href="https://github.com/nicolargo/glances" target="_blank" rel="external">glances</a> - 系统监视之眼</li>
+<li><a href="https://github.com/allinurl/goaccess" target="_blank" rel="external">goaccess</a> - 运行于 *nix 系统终端中的实时 web 日志分析器及交互式查看器</li>
+<li><a href="https://github.com/vesche/histstat" target="_blank" rel="external">histstat</a> - 适用于 netstat 的历史</li>
+<li><a href="https://github.com/hishamhm/htop" target="_blank" rel="external">htop</a> - 基于 ncurses 的交互式进程查看器，其目标是比 <code>top</code> 更好</li>
+<li><a href="http://lnav.org" target="_blank" rel="external">lnav</a> - 小型的高级日志文件查看器</li>
+<li><a href="https://github.com/dborzov/lsp" target="_blank" rel="external">lsp</a> - 改进的 <code>ls</code>，包含无格式语言的文件说明及智能的文件分组</li>
+<li><a href="https://github.com/traviscross/mtr" target="_blank" rel="external">mtr</a> - traceroute 和 ping 功能合二为一的网络诊断工具</li>
+<li><a href="https://dev.yorhel.nl/ncdu" target="_blank" rel="external">ncdu</a> - NCurses 磁盘占用统计</li>
+<li><a href="https://github.com/fenrus75/powertop" target="_blank" rel="external">powertop</a> - 电池/电源占用及设备状态监视命令行工具，包含调整选项</li>
+<li><a href="https://github.com/jlevy/procdog" target="_blank" rel="external">procdog</a> - 轻量级的命令行控制类似服务器的长实时进程</li>
+<li><a href="https://github.com/marshyski/quick-secure" target="_blank" rel="external">quick-secure</a> - 快速的安全并加固 UNIX/Linux 系统</li>
+</ul>
+<h2 id="下载与服务"><a href="#下载与服务" class="headerlink" title="下载与服务"></a>下载与服务</h2><p><em>使用 shell 脚本编写的自架、轻量级服务器与网络工具。</em></p>
+<ul>
+<li><a href="https://github.com/aria2/aria2" target="_blank" rel="external">aria2</a> - aria2 是一款在命令行中操作的轻量级多协议、多来源、及跨平台下载工具，它支持 HTTP/HTTPS、FTP、BitTorrent 及 Metalink</li>
+<li><a href="https://github.com/jneen/balls" target="_blank" rel="external">balls</a> - Bash on Balls，全功能的 web 平台</li>
+<li><a href="https://github.com/avleen/bashttpd" target="_blank" rel="external">bashttpd</a> - 使用 Bash 编写的 web 服务器</li>
+<li><a href="https://github.com/sickill/bitpocket" target="_blank" rel="external">bitpocket</a> - “DIY Dropbox” 或 “双向目录同步（含正确删除）”</li>
+<li><a href="https://github.com/andreafabrizi/Dropbox-Uploader" target="_blank" rel="external">Dropbox-Uploader</a> - Dropbox Uploader 是用来从 Dropbox 上传、下载、列出或删除文件的 Bash 脚本</li>
+<li><a href="https://github.com/jakubroztocil/httpie" target="_blank" rel="external">httpie</a> - HTTPie 是一个命令行 HTTP 客户端，用户友好的 cURL 替代品</li>
+<li><a href="https://www.npmjs.com/package/http-server" target="_blank" rel="external">http-server</a> - http-server可以启动一个轻量级的http服务</li>
+<li><a href="https://github.com/jaburns/ngincat" target="_blank" rel="external">ngincat</a> - 使用 netcat 的微型 Bash HTTP 服务器</li>
+<li><a href="https://github.com/micha/resty" target="_blank" rel="external">resty</a> - 你可以在管道中使用的小型命令行 REST 客户端</li>
+<li><a href="https://github.com/rg3/youtube-dl" target="_blank" rel="external">youtube-dl</a> - 从 YouTube.com 及其它视频站点下载视频的小命令行程序</li>
+<li><a href="https://github.com/coursera-dl/coursera-dl" target="_blank" rel="external">coursera-dl</a> - 从Course公开课上下载视频</li>
+</ul>
+<h2 id="多媒体与文件格式"><a href="#多媒体与文件格式" class="headerlink" title="多媒体与文件格式"></a>多媒体与文件格式</h2><p><em>用于处理视频及音频文件的工具。</em></p>
+<ul>
+<li><a href="https://github.com/sromku/adb-export" target="_blank" rel="external">adb-export</a> - 导出 Android 内容提供商为 CSV 格式</li>
+<li><a href="https://github.com/dsixda/Android-Kitchen" target="_blank" rel="external">Android-Kitchen</a> - 基于文本的 Android ROM 定制 kitchen，使用 shell 脚本并支持 Cygwin/OS X/Linux</li>
+<li><a href="https://github.com/beetbox/beets" target="_blank" rel="external">Beets</a> - 音乐库管理器及 MusicBrainz 标签工具</li>
+<li><a href="https://github.com/cmus/cmus" target="_blank" rel="external">cmus</a> - 跨平台的命令行音乐播放器</li>
+<li><a href="https://github.com/lukechilds/gifgen" target="_blank" rel="external">gifgen</a> - 简单高质量的 GIF 编码</li>
+<li><a href="https://github.com/sananth12/ImageScraper" target="_blank" rel="external">image-scraper</a> - 包含诸多特性的酷命令行图像 scraper</li>
+<li><a href="https://github.com/stedolan/jq" target="_blank" rel="external">jq</a> - 针对 json 数据的 Sed，你可以使用它分片、过滤、映射及变换结构化数据</li>
+<li><a href="https://csvkit.readthedocs.io/en/0.9.1/" target="_blank" rel="external">csvtookit</a> - 使用pip install csvki安装, csv文件进行处理的强大工具</li>
+<li><a href="http://www.mplayerhq.hu/design7/news.html" target="_blank" rel="external">mplayer</a> - 让你在 shell 中播放主流的音频及视频格式（使用 ASCII 字符）</li>
+<li><a href="https://github.com/bogem/nehm" target="_blank" rel="external">nehm</a> - 下载、设置 IDv3 标签、并添加到 iTunes 的控制台工具</li>
+<li><a href="https://github.com/lanceseidman/PiCAST" target="_blank" rel="external">PiCAST</a> - PiCAST 将你的 35 刀 Raspberry Pi 变成类 Chromecast 设备</li>
+<li><a href="https://github.com/torakiki/sejda/" target="_blank" rel="external">sejda</a> - 命令行下的 PDF 文档处理工具（分割、合并、旋转、转换为 jpg、提取文本等）</li>
+<li><a href="http://xmlstar.sourceforge.net/" target="_blank" rel="external">xmlstarlet</a> - 古老而强大的命令行 XML 格式化、过滤及处理工具</li>
+<li><a href="http://ffmpeg.org/" target="_blank" rel="external">ffmpeg</a> - 非常强大的视频处理工具</li>
+<li><a href="http://www.imagemagick.org/script/index.php" target="_blank" rel="external">imagmMagick</a> - 其强大有目共睹</li>
+</ul>
+<h2 id="应用程序"><a href="#应用程序" class="headerlink" title="应用程序"></a>应用程序</h2><p><em>基于命令行的应用程序或从命令行访问现有服务。</em></p>
+<ul>
+<li><a href="https://github.com/fcambus/ansiweather" target="_blank" rel="external">ansiweather</a> - 终端中的天气预报，包含 ANSI 颜色及 Unicode 符号</li>
+<li><a href="https://github.com/cfenollosa/bashblog" target="_blank" rel="external">bashblog</a> - 处理 blog 投递的 Bash 脚本</li>
+<li><a href="https://github.com/lord63/choosealicense-cli" target="_blank" rel="external">choosealicense-cli</a> - 从终端选授權合約</li>
+<li><a href="https://github.com/huydx/facy" target="_blank" rel="external">facy</a> - 命令行下的 Facebook 客户端</li>
+<li><a href="https://github.com/afc163/fanyi" target="_blank" rel="external">fanyi</a> - 翻译英文为中文的命令行工具</li>
+<li><a href="https://github.com/VitaliyRodnenko/geeknote" target="_blank" rel="external">geeknote</a> - 命令行的 Evernote 客户端</li>
+<li><a href="https://github.com/donnemartin/haxor-news" target="_blank" rel="external">haxor-news</a> - 像黑客一样浏览 Hacker News</li>
+<li><a href="https://github.com/rafaelrinaldi/hn-cli" target="_blank" rel="external">hn-cli</a> - 从终端舒服的浏览 Hacker News</li>
+<li><a href="https://github.com/nogizhopaboroda/iponmap" target="_blank" rel="external">iponmap</a> - 利用 IP 地址在世界地图上绘点</li>
+<li><a href="https://github.com/lord63/isitup" target="_blank" rel="external">isitup</a> - 检查一个网站是否正常上线</li>
+<li><a href="https://github.com/maebert/jrnl" target="_blank" rel="external">jrnl</a> - 使用无格式文本文件存储日记的简单命令行程序</li>
+<li><a href="https://github.com/ledger/ledger" target="_blank" rel="external">ledger</a> - 命令行记账</li>
+<li><a href="https://github.com/lord63/licen" target="_blank" rel="external">licen</a> - 生成项目 license</li>
+<li><a href="https://github.com/iCHAIT/moviemon" target="_blank" rel="external">moviemon</a> - 有关在命令行下看电影的每样东东</li>
+<li><a href="https://github.com/alebcay/pushblast" target="_blank" rel="external">pushblast</a> - 当 shell 程序退出时获得 PushBullet 通知</li>
+<li><a href="https://github.com/Red5d/pushbullet-bash" target="_blank" rel="external">pushbullet-bash</a> - PushBullet API 的 Bash 接口</li>
+<li><a href="https://github.com/michael-lazar/rtv" target="_blank" rel="external">Reddit Terminal Viewer</a> - 从终端浏览 Reddit</li>
+<li><a href="https://github.com/donnemartin/saws" target="_blank" rel="external">SAWS</a> - 超强的 AWS 命令行界面</li>
+<li><a href="https://taskwarrior.org/" target="_blank" rel="external">taskwarrior</a> - 一个命令行去做列表管理器</li>
+<li><a href="https://transfer.sh/" target="_blank" rel="external">transfer.sh</a> — 从 shell 快速上传并分享文件</li>
+<li><a href="https://github.com/ellisonleao/vl" target="_blank" rel="external">vl</a> - 针对文本文档的 URL 链接检查器</li>
+<li><a href="https://github.com/schachmat/wego" target="_blank" rel="external">wego</a> - 适用于终端的天气预报应用</li>
+<li><a href="https://github.com/rafaelrinaldi/whereami" target="_blank" rel="external">whereami</a> - 从命令行获得你的地理位置信息</li>
+<li><a href="http://www.fail2ban.org/wiki/index.php/Main_Page" target="_blank" rel="external">fail2ban</a> - SSH防爆破</li>
+</ul>
+<h2 id="游戏"><a href="#游戏" class="headerlink" title="游戏"></a>游戏</h2><p><em>只顾工作而不玩玩是一种糟糕的度日方式。</em></p>
+<ul>
+<li><a href="https://github.com/mydzor/bash2048" target="_blank" rel="external">bash2048</a> - 2048 游戏的 Bash 实现</li>
+<li><a href="https://github.com/feherke/Bash-script/tree/master/minesweeper" target="_blank" rel="external">minesweeper</a> - 扫雷的 Bash 实现</li>
+<li><a href="https://github.com/uuner/sedtris" target="_blank" rel="external">sedtris</a> - 使用 sed 实现的俄罗斯方块</li>
+<li><a href="https://github.com/aureliojargas/sed-scripts" target="_blank" rel="external">sed-scripts</a> - 使用 sed 编写的 Arkanoid 和 Sokoban</li>
+</ul>
+<h2 id="Shell-包管理"><a href="#Shell-包管理" class="headerlink" title="Shell 包管理"></a>Shell 包管理</h2><p><em>用于管理多个 shell 配置的工具。对于特定的 zsh 工具，参阅 Zsh 节。</em></p>
+<ul>
+<li><a href="https://github.com/Bash-it/bash-it" target="_blank" rel="external">bash-it</a> - 社区化的 Bash 框架</li>
+<li><a href="https://github.com/basherpm/basher" target="_blank" rel="external">basher</a> - 针对 shell 脚本的包管理器</li>
+<li><a href="http://www.bpkg.io/" target="_blank" rel="external">bpkg</a> - JavaScript 有 npm、Ruby 有 Gems、Python 有 pip，现在 Shell 有 bpkg</li>
+<li><a href="https://github.com/svetlyak40wt/dotfiler" target="_blank" rel="external">dotfiler</a> – 使用 Python 编写的基于 Git 的 Shell dotfiles 管理器</li>
+<li><a href="https://github.com/freshshell/fresh" target="_blank" rel="external">fresh</a> - 使你的 dotfiles 保持更新</li>
+<li><a href="https://github.com/andsens/homeshick" target="_blank" rel="external">homeshick</a> - 使用 Bash 编写的 Git dotfile 同步器</li>
+<li><a href="https://github.com/RichiH/vcsh" target="_blank" rel="external">vcsh</a> - 基于 Git 的配置管理器</li>
+<li><a href="https://github.com/javier-lopez/shundle" target="_blank" rel="external">shundle</a> - 适用于 shell 脚本的插件管理器</li>
+</ul>
+<h2 id="Shell-脚本开发"><a href="#Shell-脚本开发" class="headerlink" title="Shell 脚本开发"></a>Shell 脚本开发</h2><p><em>用于编写、改进、及管理 Bash 或其它 shell 脚本的工具。</em></p>
+<ul>
+<li><a href="https://github.com/fidian/ansi" target="_blank" rel="external">ansi</a> - 使用纯 Bash 实现的 ANSI 转义码，包括更改文本颜色、定位光标等等</li>
+<li><a href="https://github.com/lehmannro/assert.sh" target="_blank" rel="external">assert.sh</a> - Bash 单元测试框架</li>
+<li><a href="https://github.com/jmcantrell/bashful" target="_blank" rel="external">bashful</a> - 简化编写 Bash 脚本的库收集</li>
+<li><a href="https://github.com/lingtalfi/bashmanager" target="_blank" rel="external">bashmanager</a> - 用来创建命令行工具的微型 Bash 框架</li>
+<li><a href="https://github.com/sstephenson/bats" target="_blank" rel="external">bats</a> - Bash 自动化测试系统</li>
+<li><a href="https://github.com/fisherman/fishtape" target="_blank" rel="external">Fishtape</a> - 适用于 fish 的 TAP 产生器及测试工具</li>
+<li><a href="https://github.com/erichs/composure" target="_blank" rel="external">composure</a> - 撰写、文档、版本、及组织你的 shell 函数</li>
+<li><a href="https://github.com/Mosai/workshop/blob/master/doc/dispatch.md" target="_blank" rel="external">dispatch</a> - 使用 50 行可移植 shell 脚本写成的命令行参数解析器</li>
+<li><a href="https://github.com/qzb/is.sh" target="_blank" rel="external">is.sh</a> - 内置 test 命令的替代品，使 “if” 语句更漂亮</li>
+<li><a href="https://github.com/tests-always-included/mo" target="_blank" rel="external">mo</a> - 使用纯 Bash 实现的 Mustache 模板</li>
+<li><a href="https://github.com/nk412/optparse" target="_blank" rel="external">optparse</a> - 针对 getopts 的 BASH wrapper，用于简单的命令行参数</li>
+<li><a href="https://github.com/rerun/rerun" target="_blank" rel="external">rerun</a> - 用来管理保留脚本的模块化 shell 自动化框架</li>
+<li><a href="https://github.com/cloudflare/semver_bash" target="_blank" rel="external">semver_bash</a> - 使用 Bash 实现的语义化版本</li>
+<li>[sh-semver] (<a href="https://github.com/qzb/sh-semver" target="_blank" rel="external">https://github.com/qzb/sh-semver</a>) - 适用于 bash 的 Semver 工具，匹配指定规则来查找版本</li>
+<li><a href="https://github.com/koalaman/shellcheck" target="_blank" rel="external">shellcheck</a> - 针对 shell 脚本的静态化分析工具</li>
+<li><a href="https://github.com/shellfire-dev/shellfire" target="_blank" rel="external">shellfire</a> - 命名空间仓库，可写 shell (bash、sh 及 dash) 函数库</li>
+<li><a href="https://github.com/rylnd/shpec" target="_blank" rel="external">shpec</a> - shell 测试框架</li>
+<li><a href="https://github.com/basecamp/sub" target="_blank" rel="external">sub</a> - 以美味之道来管理程序</li>
+<li><a href="https://github.com/thinkerbot/ts" target="_blank" rel="external">ts</a> - shell 测试脚本</li>
+<li><a href="https://github.com/kward/shunit2" target="_blank" rel="external">shunit2</a> - 适用于 Bash 脚本的单元测试框架（具有 JUnit/PyUnit 风味）</li>
+<li><a href="https://github.com/jandob/rebash" target="_blank" rel="external">rebash</a> - 脚本库/框架，包含 imports、exceptions、doc-tests 等功能</li>
+</ul>
+<h1 id="指南"><a href="#指南" class="headerlink" title="指南"></a>指南</h1><ul>
+<li><a href="http://wiki.bash-hackers.org/" target="_blank" rel="external">Bash 黑客的维基</a></li>
+<li><a href="http://mywiki.wooledge.org" target="_blank" rel="external">Greg Wooledge（又名 “greycat”）的维基</a>：尤其是 <a href="http://mywiki.wooledge.org/BashGuide" target="_blank" rel="external">Bash 指南</a>、<a href="http://mywiki.wooledge.org/BashFAQ" target="_blank" rel="external">Bash 疑难问答</a> 及 <a href="http://mywiki.wooledge.org/BashPitfalls" target="_blank" rel="external">Bash 陷阱</a></li>
+<li><a href="https://google.github.io/styleguide/shell.xml" target="_blank" rel="external">Google 的 Shell 风格指南</a></li>
+<li><a href="http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html#toc" target="_blank" rel="external">Linux 文档项目: Bash 编程 - 简介/如何做</a></li>
+<li><a href="http://www.tldp.org/LDP/abs/html/" target="_blank" rel="external">Linux 文档项目: 高级 Bash 脚本指南</a></li>
+<li><a href="https://en.wikibooks.org/wiki/Bash_Shell_Scripting" target="_blank" rel="external">WikiBooks: Bash Shell 脚本</a></li>
+<li><a href="http://redsymbol.net/articles/unofficial-bash-strict-mode/" target="_blank" rel="external">使用非官方的 Bash 严格模式 (除非你爱调试)</a></li>
+<li><a href="https://github.com/jlevy/the-art-of-command-line" target="_blank" rel="external">命令行的艺术</a></li>
+<li><a href="https://www.learnenough.com/command-line-tutorial" target="_blank" rel="external">学会成为命令行杀手</a></li>
+<li><a href="https://github.com/Idnan/bash-guide" target="_blank" rel="external">学习bash的指南</a></li>
+</ul>
+<h1 id="其它-Awesome-清单"><a href="#其它-Awesome-清单" class="headerlink" title="其它 Awesome 清单"></a>其它 Awesome 清单</h1><p>其它很棒的 awesome 清单可在 <a href="https://github.com/emijrp/awesome-awesome" target="_blank" rel="external">awesome-awesome</a> 和 <a href="https://github.com/bayandin/awesome-awesomeness" target="_blank" rel="external">awesome-awesomeness</a> 找到。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      Awesome Shell Learning Tutorial
+    
+    </summary>
+    
+      <category term="shell" scheme="http://itdevops.me/categories/shell/"/>
+    
+    
+      <category term="shell" scheme="http://itdevops.me/tags/shell/"/>
     
   </entry>
   
@@ -4573,267 +4969,6 @@
       <category term="ios" scheme="http://itdevops.me/tags/ios/"/>
     
       <category term="macos" scheme="http://itdevops.me/tags/macos/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Shell 进阶指南</title>
-    <link href="http://itdevops.me/awesome-shell.html"/>
-    <id>http://itdevops.me/awesome-shell.html</id>
-    <published>2017-07-15T09:47:44.000Z</published>
-    <updated>2017-07-15T11:07:22.763Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Awesome-Shell"><a href="#Awesome-Shell" class="headerlink" title="Awesome Shell "></a>Awesome Shell <a href="https://github.com/sindresorhus/awesome" target="_blank" rel="external"><img src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" alt="Awesome"></a></h1><p>这是一份非常棒的命令行框架、工具包、指南、以及小玩意儿组织清单。由 awesome-php 获得灵感。该 awesome 收集在 <a href="https://unix-shell.zeef.com/caleb.xu" target="_blank" rel="external">Unix-Shell.ZEEF.com</a> 上也可用。</p>
-<ul>
-<li><a href="#命令行效率">命令行效率</a></li>
-<li><a href="#定制">定制</a></li>
-<li><a href="#针对开发者">针对开发者</a></li>
-<li><a href="#系统工具">系统工具</a></li>
-<li><a href="#下载与服务">下载与服务</a></li>
-<li><a href="#多媒体与文件格式">多媒体与文件格式</a></li>
-<li><a href="#应用程序">应用程序</a></li>
-<li><a href="#游戏">游戏</a></li>
-<li><a href="#shell-包管理">Shell 包管理</a></li>
-<li><a href="#shell-脚本开发">Shell 脚本开发</a></li>
-<li><a href="#指南">指南</a></li>
-<li><a href="https://github.com/unixorn/awesome-zsh-plugins" target="_blank" rel="external"><strong>Awesome Zsh</strong></a>&nbsp; <a href="https://github.com/unixorn/awesome-zsh-plugins" target="_blank" rel="external"><img src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" alt="Awesome"></a></li>
-<li><a href="https://github.com/jbucaran/awesome-fish" target="_blank" rel="external"><strong>Awesome Fish</strong></a> <a href="https://github.com/jbucaran/awesome-fish" target="_blank" rel="external"><img src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" alt="Awesome"></a></li>
-<li><a href="#其它-awesome-清单">其它 Awesome 清单</a></li>
-</ul>
-<h2 id="命令行效率"><a href="#命令行效率" class="headerlink" title="命令行效率"></a>命令行效率</h2><p><em>使你的终端体验更有效率的搜索、书签、多路复用、以及其它工具。</em></p>
-<ul>
-<li><a href="https://github.com/ggreer/the_silver_searcher" target="_blank" rel="external">ag</a> - 在层级目录中超快的搜索字符串</li>
-<li><a href="https://github.com/sebglazebrook/aliases" target="_blank" rel="external">aliases</a> - 针对 bash 的上下文动态组织别名</li>
-<li><a href="https://github.com/Jintin/aliasme" target="_blank" rel="external">aliasme</a> - 用来快速更改目录的 alias 辅助程序</li>
-<li><a href="https://github.com/kennethreitz/autoenv" target="_blank" rel="external">autoenv</a> - 基于目录的环境</li>
-<li><a href="https://github.com/wting/autojump" target="_blank" rel="external">autojump</a> - 自带学习功能的 cd 命令，从命令行轻易地导航目录</li>
-<li><a href="https://github.com/rcaloras/bashhub-client" target="_blank" rel="external">bashhub</a> - :cloud: 在云中的 bash 历史，已索引且可搜索。</li>
-<li><a href="https://github.com/huyng/bashmarks" target="_blank" rel="external">bashmarks</a> - 适用于 shell 的目录书签</li>
-<li><a href="https://github.com/vigneshwaranr/bd" target="_blank" rel="external">bd</a> - 迅速回到父目录</li>
-<li><a href="https://github.com/tmrts/boilr" target="_blank" rel="external">boilr</a> - 从 boilerplate 模板创建项目的超快命令行工具</li>
-<li><a href="https://github.com/holman/boom" target="_blank" rel="external">boom</a> - 在命令行中存储链接及片断</li>
-<li><a href="https://github.com/ok-borg/borg" target="_blank" rel="external">borg</a> - 基于终端的 bash 命令搜索引擎</li>
-<li><a href="http://byobu.co/" target="_blank" rel="external">byobu</a> - 基于文本的窗口管理器及终端多路复用器</li>
-<li><a href="https://github.com/shyiko/commacd" target="_blank" rel="external">commacd</a> - 在 Bash 中更快速的移动方式</li>
-<li><a href="https://github.com/jamesob/desk" target="_blank" rel="external">desk</a> - 适用于 shell 的轻量级工作区管理器</li>
-<li><a href="https://github.com/direnv/direnv" target="_blank" rel="external">direnv</a> - 针对 shell 的环境切换工具（利用 autoenv 比较）</li>
-<li><a href="https://github.com/b4b4r07/enhancd" target="_blank" rel="external">enhancd</a> - :rocket: 具有交互式过滤功能的下一代 cd 命令</li>
-<li><a href="https://github.com/clvv/fasd" target="_blank" rel="external">fasd</a> - 命令行效率提升器，提供快速访问文件及目录</li>
-<li><a href="https://github.com/s-p-k/foxy" target="_blank" rel="external">foxy</a> - 适合 Firefox 及 Surf 浏览器的无格式文本书签</li>
-<li><a href="https://github.com/changyuheng/fz" target="_blank" rel="external">fz</a> - z 的无缝模糊补全</li>
-<li><a href="https://github.com/junegunn/fzf" target="_blank" rel="external">fzf</a> - 命令行下的模糊搜索器</li>
-<li><a href="https://github.com/paoloantinori/hhighlighter" target="_blank" rel="external">hhighlighter</a> - 在命令输出中给单词着色</li>
-<li><a href="https://github.com/LuRsT/hr" target="_blank" rel="external">hr</a> - 适用于终端的 <code>&lt;hr /&gt;</code></li>
-<li><a href="https://github.com/dvorka/hstr" target="_blank" rel="external">hstr</a> - Bash 历史建议框</li>
-<li><a href="https://github.com/supercrabtree/k" target="_blank" rel="external">k</a> - k 是一个使目录列表更可读的 Zsh 脚本，它增添了 Git 状态、文件颜色、以及腐朽的日期</li>
-<li><a href="https://github.com/lingtalfi/k" target="_blank" rel="external">k alias</a> - 获得用于单行的酷 alias</li>
-<li><a href="https://github.com/pindexis/marker" target="_blank" rel="external">marker</a> - 将你的 shell 命令加到书签</li>
-<li><a href="http://www.gnu.org/software/parallel/" target="_blank" rel="external">parallel</a> - 以并行化方式从标准输入构造并执行 shell 命令行</li>
-<li><a href="https://github.com/facebook/PathPicker" target="_blank" rel="external">pathpicker</a> - 允许将 grep、搜索、git 等的输出结果作为输入，并提供友好的选择界面，以便打开或作为命令的参数</li>
-<li><a href="https://github.com/mooz/percol" target="_blank" rel="external">percol</a> - 为传统的 UNIX shell 管道添加交互式的过滤</li>
-<li><a href="https://github.com/pindexis/qfc" target="_blank" rel="external">qfc</a> - 针对 Bash 和 Zsh 的文件补全 widget</li>
-<li><a href="https://github.com/odb/shml" target="_blank" rel="external">SHML</a> - 适用于终端的样式框架 (Shell 标记语言)</li>
-<li><a href="https://github.com/benlinton/slugify" target="_blank" rel="external">slugify</a> - 将文件名及目录转换为 web 友好的格式</li>
-<li><a href="https://github.com/tokozedg/sman" target="_blank" rel="external">sman</a> - :bug: 命令行下的片断管理器</li>
-<li><a href="https://github.com/holman/spark" target="_blank" rel="external">spark</a> - ▁▂▃▅▂▇ 在你的 shell 中</li>
-<li><a href="https://github.com/fisherman/shark" target="_blank" rel="external">Shark</a> - ▁▂▃▅ Sparkline 生成器</li>
-<li><a href="https://github.com/oscardelben/sheet" target="_blank" rel="external">sheet</a> -  用于命令行的文本片断</li>
-<li><a href="https://github.com/rauchg/spot" target="_blank" rel="external">spot</a> - 微型的文件搜索工具</li>
-<li><a href="https://github.com/srijanshetty/snips" target="_blank" rel="external">snips</a> - 管理代码片断的命令行工具</li>
-<li><a href="https://github.com/osxfuse/sshfs" target="_blank" rel="external">sshfs</a> - 通过 SSH 挂载远程文件系统的工具</li>
-<li><a href="https://sourceforge.net/projects/sshpass/" target="_blank" rel="external">sshpass</a> - 通过命令行传递ssh密码，无需再次输入，适合用于脚本之中</li>
-<li><a href="https://sourceforge.net/projects/autossh/" target="_blank" rel="external">autossh</a> - 自动重启ssh通道和会话</li>
-<li><a href="https://mosh.org" target="_blank" rel="external">mosh</a> - 第一个实现SSP的应用，MIT的博士项目，使得C/S之间可以保持链接持续，即使断开还能恢复之前的状态</li>
-<li><a href="https://github.com/Russell91/sshrc" target="_blank" rel="external">sshrc</a> - SSH 时带上你的 .bashrc、.vimrc 等</li>
-<li><a href="https://github.com/badarsh2/Sudocabulary" target="_blank" rel="external">sudocabulary</a> - 从终端学习英语词汇</li>
-<li><a href="https://github.com/nvbn/thefuck" target="_blank" rel="external">thefuck</a> - 通过使用容易记住的命令修正常见的 shell 错误</li>
-<li><a href="http://tmux.github.io/" target="_blank" rel="external">tmux</a> - 很棒的终端复用器</li>
-<li><a href="https://github.com/shannonmoeller/up" target="_blank" rel="external">up</a> - 按名称或计数升序排列目录，支持 bash 和 zsh</li>
-<li><a href="https://github.com/rupa/v" target="_blank" rel="external">v</a> - 适用于 Vim 的 z</li>
-<li><a href="https://github.com/zolrath/wemux" target="_blank" rel="external">wemux</a> - 多用户使用 Tmux 变得更容易</li>
-<li><a href="https://github.com/rupa/z" target="_blank" rel="external">z</a> - z 是新的 j</li>
-</ul>
-<h2 id="定制"><a href="#定制" class="headerlink" title="定制"></a>定制</h2><p><em>定制提示符、颜色主题等。</em></p>
-<ul>
-<li><a href="https://github.com/chriskempson/base16-shell" target="_blank" rel="external">base16-shell</a> - 适用于 shell 的 Base16</li>
-<li><a href="https://github.com/slomkowski/bash-full-of-colors" target="_blank" rel="external">bash-full-of-colors</a> - 超强的命令行提示（含 screen、tmux、git 等支持）</li>
-<li><a href="https://github.com/magicmonty/bash-git-prompt" target="_blank" rel="external">bash-git-prompt</a> - 针对 Git 用户的信息及梦幻提示符</li>
-<li><a href="https://github.com/riobard/bash-powerline" target="_blank" rel="external">bash-powerline</a> - Powerline 风格的 Bash 提示符，纯 Bash 脚本</li>
-<li><a href="https://github.com/barryclark/bashstrap" target="_blank" rel="external">bashstrap</a> - 美化 OS X 终端的快速方法</li>
-<li><a href="https://github.com/caiogondim/bullet-train.zsh" target="_blank" rel="external">bullet-train-oh-my-zsh-theme</a> - :bullettrain_side: 基于 Powerline Vim 插件的 oh-my-zsh shell 主题</li>
-<li><a href="https://github.com/mrowa44/emojify" target="_blank" rel="external">emojify</a> - 适用于命令行的表情 :scream:</li>
-<li><a href="https://dribbble.com/shots/1021755-Flat-UI-Terminal-Theme" target="_blank" rel="external">flatui-terminal-theme</a> - 很好的终端颜色主题</li>
-<li><a href="https://github.com/lvv/git-prompt" target="_blank" rel="external">git-prompt</a> - 包含 Git、SVN 及 HG 模块的 Bash 提示符</li>
-<li><a href="https://github.com/momeni/gittify" target="_blank" rel="external">gittify</a> - 彩色的 Bash 提示符及定制的 Git 别名</li>
-<li><a href="https://github.com/Mayccoll/Gogh" target="_blank" rel="external">Gogh - Color Scheme</a> - 适用于 GNOME 终端的颜色主题</li>
-<li><a href="https://github.com/nojhan/liquidprompt" target="_blank" rel="external">liquidprompt</a> - 针对 Bash 和 Zsh 的全功能及用心设计的自适应提示符</li>
-<li><a href="https://github.com/zpm-zsh/mysql-colorize" target="_blank" rel="external">mysql-colorize</a> -  彩色的 MySQL 命令行客户端</li>
-<li><a href="https://github.com/arialdomartini/oh-my-git" target="_blank" rel="external">oh-my-git</a> - 针对 Bash 和 Zsh 的自用 Git 提示符</li>
-<li><a href="https://github.com/twolfson/sexy-bash-prompt" target="_blank" rel="external">sexy-bash-prompt</a> - 包含颜色、Git 状态及 Git 分支的 Bash 提示符</li>
-</ul>
-<h2 id="针对开发者"><a href="#针对开发者" class="headerlink" title="针对开发者"></a>针对开发者</h2><p><em>命令行开发、版本控制、以及部署。</em></p>
-<ul>
-<li><a href="https://github.com/p8952/bocker" target="_blank" rel="external">bocker</a> - 使用百行 bash 实现的 Docker</li>
-<li><a href="https://github.com/AlDanial/cloc" target="_blank" rel="external">cloc</a> - 统计代码行数</li>
-<li><a href="https://github.com/dokku/dokku" target="_blank" rel="external">dokku</a> - 百行 Bash 打造的 Docker 迷你 Heroku</li>
-<li><a href="https://github.com/fisherman/getopts" target="_blank" rel="external">getopts</a> - 适用于 fish 的命令行解析器</li>
-<li><a href="https://github.com/unixorn/git-extra-commands" target="_blank" rel="external">git-extra-commands</a> - 很多 Git 扩展工具，包括 churn、cut-branch、improved-merge 等</li>
-<li><a href="https://github.com/tj/git-extras" target="_blank" rel="external">git-extras</a> - Git 工具，包括仓库摘要、repl、更改日志人数、作者提交百分比等</li>
-<li><a href="https://github.com/paulirish/git-open" target="_blank" rel="external">git-open</a> - 输入 <code>git open</code> 在浏览器中打开 GitHub 页面或仓库网站</li>
-<li><a href="https://github.com/markchalloner/git-semver" target="_blank" rel="external">git-semver</a> - 用来方便的语义化版本及更改日志验证的 Git 插件</li>
-<li><a href="https://github.com/rtomayko/git-sh" target="_blank" rel="external">git-sh</a> - 适合 Git 工作的定制 Bash 环境</li>
-<li><a href="https://github.com/aanand/git-up" target="_blank" rel="external">git-up</a> - 自动变基进来的更改代替合并，优雅！</li>
-<li><a href="https://github.com/github/hub" target="_blank" rel="external">hub</a> - 更易使用 GitHub 的命令行工具</li>
-<li><a href="https://github.com/joeyh/myrepos" target="_blank" rel="external">mr</a> - 多仓库管理工具</li>
-<li><a href="https://github.com/brigade/overcommit" target="_blank" rel="external">overcommit</a> - 完全可配置且可扩展的 Git hook 管理器</li>
-<li><a href="http://pre-commit.com" target="_blank" rel="external">pre-commit</a> - 用于管理及维护多语言 pre-commit hooks 的框架</li>
-<li><a href="https://github.com/jlevy/repren" target="_blank" rel="external">repren</a> - 命令行搜索与替换及文件重命名的瑞士军刀式工具</li>
-<li><a href="https://github.com/slap-editor/slap" target="_blank" rel="external">slap</a> - 运行在 Node.js 上的基于终端的类 Sublime 文本编辑器</li>
-<li><a href="https://github.com/sapegin/shipit" target="_blank" rel="external">shipit</a> - 极简 SSH 部署</li>
-<li><a href="https://github.com/aykamko/tag" target="_blank" rel="external">tag</a> - 立即跳到你的公牛队比赛</li>
-</ul>
-<h2 id="系统工具"><a href="#系统工具" class="headerlink" title="系统工具"></a>系统工具</h2><p><em>操作系统相关工具，包括系统管理、系统调试、及文件和进程管理。</em></p>
-<ul>
-<li><a href="https://www.atoptool.nl" target="_blank" rel="external">atop</a> - 能够报告所有进程活动的 ASCII 全屏性能监视器</li>
-<li><a href="https://github.com/Xfennec/progress" target="_blank" rel="external">cv</a> - 显示 cp、rm、dd 等命令进度的 Linux 工具</li>
-<li><a href="https://github.com/nicolargo/glances" target="_blank" rel="external">glances</a> - 系统监视之眼</li>
-<li><a href="https://github.com/allinurl/goaccess" target="_blank" rel="external">goaccess</a> - 运行于 *nix 系统终端中的实时 web 日志分析器及交互式查看器</li>
-<li><a href="https://github.com/vesche/histstat" target="_blank" rel="external">histstat</a> - 适用于 netstat 的历史</li>
-<li><a href="https://github.com/hishamhm/htop" target="_blank" rel="external">htop</a> - 基于 ncurses 的交互式进程查看器，其目标是比 <code>top</code> 更好</li>
-<li><a href="http://lnav.org" target="_blank" rel="external">lnav</a> - 小型的高级日志文件查看器</li>
-<li><a href="https://github.com/dborzov/lsp" target="_blank" rel="external">lsp</a> - 改进的 <code>ls</code>，包含无格式语言的文件说明及智能的文件分组</li>
-<li><a href="https://github.com/traviscross/mtr" target="_blank" rel="external">mtr</a> - traceroute 和 ping 功能合二为一的网络诊断工具</li>
-<li><a href="https://dev.yorhel.nl/ncdu" target="_blank" rel="external">ncdu</a> - NCurses 磁盘占用统计</li>
-<li><a href="https://github.com/fenrus75/powertop" target="_blank" rel="external">powertop</a> - 电池/电源占用及设备状态监视命令行工具，包含调整选项</li>
-<li><a href="https://github.com/jlevy/procdog" target="_blank" rel="external">procdog</a> - 轻量级的命令行控制类似服务器的长实时进程</li>
-<li><a href="https://github.com/marshyski/quick-secure" target="_blank" rel="external">quick-secure</a> - 快速的安全并加固 UNIX/Linux 系统</li>
-</ul>
-<h2 id="下载与服务"><a href="#下载与服务" class="headerlink" title="下载与服务"></a>下载与服务</h2><p><em>使用 shell 脚本编写的自架、轻量级服务器与网络工具。</em></p>
-<ul>
-<li><a href="https://github.com/aria2/aria2" target="_blank" rel="external">aria2</a> - aria2 是一款在命令行中操作的轻量级多协议、多来源、及跨平台下载工具，它支持 HTTP/HTTPS、FTP、BitTorrent 及 Metalink</li>
-<li><a href="https://github.com/jneen/balls" target="_blank" rel="external">balls</a> - Bash on Balls，全功能的 web 平台</li>
-<li><a href="https://github.com/avleen/bashttpd" target="_blank" rel="external">bashttpd</a> - 使用 Bash 编写的 web 服务器</li>
-<li><a href="https://github.com/sickill/bitpocket" target="_blank" rel="external">bitpocket</a> - “DIY Dropbox” 或 “双向目录同步（含正确删除）”</li>
-<li><a href="https://github.com/andreafabrizi/Dropbox-Uploader" target="_blank" rel="external">Dropbox-Uploader</a> - Dropbox Uploader 是用来从 Dropbox 上传、下载、列出或删除文件的 Bash 脚本</li>
-<li><a href="https://github.com/jakubroztocil/httpie" target="_blank" rel="external">httpie</a> - HTTPie 是一个命令行 HTTP 客户端，用户友好的 cURL 替代品</li>
-<li><a href="https://www.npmjs.com/package/http-server" target="_blank" rel="external">http-server</a> - http-server可以启动一个轻量级的http服务</li>
-<li><a href="https://github.com/jaburns/ngincat" target="_blank" rel="external">ngincat</a> - 使用 netcat 的微型 Bash HTTP 服务器</li>
-<li><a href="https://github.com/micha/resty" target="_blank" rel="external">resty</a> - 你可以在管道中使用的小型命令行 REST 客户端</li>
-<li><a href="https://github.com/rg3/youtube-dl" target="_blank" rel="external">youtube-dl</a> - 从 YouTube.com 及其它视频站点下载视频的小命令行程序</li>
-<li><a href="https://github.com/coursera-dl/coursera-dl" target="_blank" rel="external">coursera-dl</a> - 从Course公开课上下载视频</li>
-</ul>
-<h2 id="多媒体与文件格式"><a href="#多媒体与文件格式" class="headerlink" title="多媒体与文件格式"></a>多媒体与文件格式</h2><p><em>用于处理视频及音频文件的工具。</em></p>
-<ul>
-<li><a href="https://github.com/sromku/adb-export" target="_blank" rel="external">adb-export</a> - 导出 Android 内容提供商为 CSV 格式</li>
-<li><a href="https://github.com/dsixda/Android-Kitchen" target="_blank" rel="external">Android-Kitchen</a> - 基于文本的 Android ROM 定制 kitchen，使用 shell 脚本并支持 Cygwin/OS X/Linux</li>
-<li><a href="https://github.com/beetbox/beets" target="_blank" rel="external">Beets</a> - 音乐库管理器及 MusicBrainz 标签工具</li>
-<li><a href="https://github.com/cmus/cmus" target="_blank" rel="external">cmus</a> - 跨平台的命令行音乐播放器</li>
-<li><a href="https://github.com/lukechilds/gifgen" target="_blank" rel="external">gifgen</a> - 简单高质量的 GIF 编码</li>
-<li><a href="https://github.com/sananth12/ImageScraper" target="_blank" rel="external">image-scraper</a> - 包含诸多特性的酷命令行图像 scraper</li>
-<li><a href="https://github.com/stedolan/jq" target="_blank" rel="external">jq</a> - 针对 json 数据的 Sed，你可以使用它分片、过滤、映射及变换结构化数据</li>
-<li><a href="https://csvkit.readthedocs.io/en/0.9.1/" target="_blank" rel="external">csvtookit</a> - 使用pip install csvki安装, csv文件进行处理的强大工具</li>
-<li><a href="http://www.mplayerhq.hu/design7/news.html" target="_blank" rel="external">mplayer</a> - 让你在 shell 中播放主流的音频及视频格式（使用 ASCII 字符）</li>
-<li><a href="https://github.com/bogem/nehm" target="_blank" rel="external">nehm</a> - 下载、设置 IDv3 标签、并添加到 iTunes 的控制台工具</li>
-<li><a href="https://github.com/lanceseidman/PiCAST" target="_blank" rel="external">PiCAST</a> - PiCAST 将你的 35 刀 Raspberry Pi 变成类 Chromecast 设备</li>
-<li><a href="https://github.com/torakiki/sejda/" target="_blank" rel="external">sejda</a> - 命令行下的 PDF 文档处理工具（分割、合并、旋转、转换为 jpg、提取文本等）</li>
-<li><a href="http://xmlstar.sourceforge.net/" target="_blank" rel="external">xmlstarlet</a> - 古老而强大的命令行 XML 格式化、过滤及处理工具</li>
-<li><a href="http://ffmpeg.org/" target="_blank" rel="external">ffmpeg</a> - 非常强大的视频处理工具</li>
-<li><a href="http://www.imagemagick.org/script/index.php" target="_blank" rel="external">imagmMagick</a> - 其强大有目共睹</li>
-</ul>
-<h2 id="应用程序"><a href="#应用程序" class="headerlink" title="应用程序"></a>应用程序</h2><p><em>基于命令行的应用程序或从命令行访问现有服务。</em></p>
-<ul>
-<li><a href="https://github.com/fcambus/ansiweather" target="_blank" rel="external">ansiweather</a> - 终端中的天气预报，包含 ANSI 颜色及 Unicode 符号</li>
-<li><a href="https://github.com/cfenollosa/bashblog" target="_blank" rel="external">bashblog</a> - 处理 blog 投递的 Bash 脚本</li>
-<li><a href="https://github.com/lord63/choosealicense-cli" target="_blank" rel="external">choosealicense-cli</a> - 从终端选授權合約</li>
-<li><a href="https://github.com/huydx/facy" target="_blank" rel="external">facy</a> - 命令行下的 Facebook 客户端</li>
-<li><a href="https://github.com/afc163/fanyi" target="_blank" rel="external">fanyi</a> - 翻译英文为中文的命令行工具</li>
-<li><a href="https://github.com/VitaliyRodnenko/geeknote" target="_blank" rel="external">geeknote</a> - 命令行的 Evernote 客户端</li>
-<li><a href="https://github.com/donnemartin/haxor-news" target="_blank" rel="external">haxor-news</a> - 像黑客一样浏览 Hacker News</li>
-<li><a href="https://github.com/rafaelrinaldi/hn-cli" target="_blank" rel="external">hn-cli</a> - 从终端舒服的浏览 Hacker News</li>
-<li><a href="https://github.com/nogizhopaboroda/iponmap" target="_blank" rel="external">iponmap</a> - 利用 IP 地址在世界地图上绘点</li>
-<li><a href="https://github.com/lord63/isitup" target="_blank" rel="external">isitup</a> - 检查一个网站是否正常上线</li>
-<li><a href="https://github.com/maebert/jrnl" target="_blank" rel="external">jrnl</a> - 使用无格式文本文件存储日记的简单命令行程序</li>
-<li><a href="https://github.com/ledger/ledger" target="_blank" rel="external">ledger</a> - 命令行记账</li>
-<li><a href="https://github.com/lord63/licen" target="_blank" rel="external">licen</a> - 生成项目 license</li>
-<li><a href="https://github.com/iCHAIT/moviemon" target="_blank" rel="external">moviemon</a> - 有关在命令行下看电影的每样东东</li>
-<li><a href="https://github.com/alebcay/pushblast" target="_blank" rel="external">pushblast</a> - 当 shell 程序退出时获得 PushBullet 通知</li>
-<li><a href="https://github.com/Red5d/pushbullet-bash" target="_blank" rel="external">pushbullet-bash</a> - PushBullet API 的 Bash 接口</li>
-<li><a href="https://github.com/michael-lazar/rtv" target="_blank" rel="external">Reddit Terminal Viewer</a> - 从终端浏览 Reddit</li>
-<li><a href="https://github.com/donnemartin/saws" target="_blank" rel="external">SAWS</a> - 超强的 AWS 命令行界面</li>
-<li><a href="https://taskwarrior.org/" target="_blank" rel="external">taskwarrior</a> - 一个命令行去做列表管理器</li>
-<li><a href="https://transfer.sh/" target="_blank" rel="external">transfer.sh</a> — 从 shell 快速上传并分享文件</li>
-<li><a href="https://github.com/ellisonleao/vl" target="_blank" rel="external">vl</a> - 针对文本文档的 URL 链接检查器</li>
-<li><a href="https://github.com/schachmat/wego" target="_blank" rel="external">wego</a> - 适用于终端的天气预报应用</li>
-<li><a href="https://github.com/rafaelrinaldi/whereami" target="_blank" rel="external">whereami</a> - 从命令行获得你的地理位置信息</li>
-<li><a href="http://www.fail2ban.org/wiki/index.php/Main_Page" target="_blank" rel="external">fail2ban</a> - SSH防爆破</li>
-</ul>
-<h2 id="游戏"><a href="#游戏" class="headerlink" title="游戏"></a>游戏</h2><p><em>只顾工作而不玩玩是一种糟糕的度日方式。</em></p>
-<ul>
-<li><a href="https://github.com/mydzor/bash2048" target="_blank" rel="external">bash2048</a> - 2048 游戏的 Bash 实现</li>
-<li><a href="https://github.com/feherke/Bash-script/tree/master/minesweeper" target="_blank" rel="external">minesweeper</a> - 扫雷的 Bash 实现</li>
-<li><a href="https://github.com/uuner/sedtris" target="_blank" rel="external">sedtris</a> - 使用 sed 实现的俄罗斯方块</li>
-<li><a href="https://github.com/aureliojargas/sed-scripts" target="_blank" rel="external">sed-scripts</a> - 使用 sed 编写的 Arkanoid 和 Sokoban</li>
-</ul>
-<h2 id="Shell-包管理"><a href="#Shell-包管理" class="headerlink" title="Shell 包管理"></a>Shell 包管理</h2><p><em>用于管理多个 shell 配置的工具。对于特定的 zsh 工具，参阅 Zsh 节。</em></p>
-<ul>
-<li><a href="https://github.com/Bash-it/bash-it" target="_blank" rel="external">bash-it</a> - 社区化的 Bash 框架</li>
-<li><a href="https://github.com/basherpm/basher" target="_blank" rel="external">basher</a> - 针对 shell 脚本的包管理器</li>
-<li><a href="http://www.bpkg.io/" target="_blank" rel="external">bpkg</a> - JavaScript 有 npm、Ruby 有 Gems、Python 有 pip，现在 Shell 有 bpkg</li>
-<li><a href="https://github.com/svetlyak40wt/dotfiler" target="_blank" rel="external">dotfiler</a> – 使用 Python 编写的基于 Git 的 Shell dotfiles 管理器</li>
-<li><a href="https://github.com/freshshell/fresh" target="_blank" rel="external">fresh</a> - 使你的 dotfiles 保持更新</li>
-<li><a href="https://github.com/andsens/homeshick" target="_blank" rel="external">homeshick</a> - 使用 Bash 编写的 Git dotfile 同步器</li>
-<li><a href="https://github.com/RichiH/vcsh" target="_blank" rel="external">vcsh</a> - 基于 Git 的配置管理器</li>
-<li><a href="https://github.com/javier-lopez/shundle" target="_blank" rel="external">shundle</a> - 适用于 shell 脚本的插件管理器</li>
-</ul>
-<h2 id="Shell-脚本开发"><a href="#Shell-脚本开发" class="headerlink" title="Shell 脚本开发"></a>Shell 脚本开发</h2><p><em>用于编写、改进、及管理 Bash 或其它 shell 脚本的工具。</em></p>
-<ul>
-<li><a href="https://github.com/fidian/ansi" target="_blank" rel="external">ansi</a> - 使用纯 Bash 实现的 ANSI 转义码，包括更改文本颜色、定位光标等等</li>
-<li><a href="https://github.com/lehmannro/assert.sh" target="_blank" rel="external">assert.sh</a> - Bash 单元测试框架</li>
-<li><a href="https://github.com/jmcantrell/bashful" target="_blank" rel="external">bashful</a> - 简化编写 Bash 脚本的库收集</li>
-<li><a href="https://github.com/lingtalfi/bashmanager" target="_blank" rel="external">bashmanager</a> - 用来创建命令行工具的微型 Bash 框架</li>
-<li><a href="https://github.com/sstephenson/bats" target="_blank" rel="external">bats</a> - Bash 自动化测试系统</li>
-<li><a href="https://github.com/fisherman/fishtape" target="_blank" rel="external">Fishtape</a> - 适用于 fish 的 TAP 产生器及测试工具</li>
-<li><a href="https://github.com/erichs/composure" target="_blank" rel="external">composure</a> - 撰写、文档、版本、及组织你的 shell 函数</li>
-<li><a href="https://github.com/Mosai/workshop/blob/master/doc/dispatch.md" target="_blank" rel="external">dispatch</a> - 使用 50 行可移植 shell 脚本写成的命令行参数解析器</li>
-<li><a href="https://github.com/qzb/is.sh" target="_blank" rel="external">is.sh</a> - 内置 test 命令的替代品，使 “if” 语句更漂亮</li>
-<li><a href="https://github.com/tests-always-included/mo" target="_blank" rel="external">mo</a> - 使用纯 Bash 实现的 Mustache 模板</li>
-<li><a href="https://github.com/nk412/optparse" target="_blank" rel="external">optparse</a> - 针对 getopts 的 BASH wrapper，用于简单的命令行参数</li>
-<li><a href="https://github.com/rerun/rerun" target="_blank" rel="external">rerun</a> - 用来管理保留脚本的模块化 shell 自动化框架</li>
-<li><a href="https://github.com/cloudflare/semver_bash" target="_blank" rel="external">semver_bash</a> - 使用 Bash 实现的语义化版本</li>
-<li>[sh-semver] (<a href="https://github.com/qzb/sh-semver" target="_blank" rel="external">https://github.com/qzb/sh-semver</a>) - 适用于 bash 的 Semver 工具，匹配指定规则来查找版本</li>
-<li><a href="https://github.com/koalaman/shellcheck" target="_blank" rel="external">shellcheck</a> - 针对 shell 脚本的静态化分析工具</li>
-<li><a href="https://github.com/shellfire-dev/shellfire" target="_blank" rel="external">shellfire</a> - 命名空间仓库，可写 shell (bash、sh 及 dash) 函数库</li>
-<li><a href="https://github.com/rylnd/shpec" target="_blank" rel="external">shpec</a> - shell 测试框架</li>
-<li><a href="https://github.com/basecamp/sub" target="_blank" rel="external">sub</a> - 以美味之道来管理程序</li>
-<li><a href="https://github.com/thinkerbot/ts" target="_blank" rel="external">ts</a> - shell 测试脚本</li>
-<li><a href="https://github.com/kward/shunit2" target="_blank" rel="external">shunit2</a> - 适用于 Bash 脚本的单元测试框架（具有 JUnit/PyUnit 风味）</li>
-<li><a href="https://github.com/jandob/rebash" target="_blank" rel="external">rebash</a> - 脚本库/框架，包含 imports、exceptions、doc-tests 等功能</li>
-</ul>
-<h1 id="指南"><a href="#指南" class="headerlink" title="指南"></a>指南</h1><ul>
-<li><a href="http://wiki.bash-hackers.org/" target="_blank" rel="external">Bash 黑客的维基</a></li>
-<li><a href="http://mywiki.wooledge.org" target="_blank" rel="external">Greg Wooledge（又名 “greycat”）的维基</a>：尤其是 <a href="http://mywiki.wooledge.org/BashGuide" target="_blank" rel="external">Bash 指南</a>、<a href="http://mywiki.wooledge.org/BashFAQ" target="_blank" rel="external">Bash 疑难问答</a> 及 <a href="http://mywiki.wooledge.org/BashPitfalls" target="_blank" rel="external">Bash 陷阱</a></li>
-<li><a href="https://google.github.io/styleguide/shell.xml" target="_blank" rel="external">Google 的 Shell 风格指南</a></li>
-<li><a href="http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html#toc" target="_blank" rel="external">Linux 文档项目: Bash 编程 - 简介/如何做</a></li>
-<li><a href="http://www.tldp.org/LDP/abs/html/" target="_blank" rel="external">Linux 文档项目: 高级 Bash 脚本指南</a></li>
-<li><a href="https://en.wikibooks.org/wiki/Bash_Shell_Scripting" target="_blank" rel="external">WikiBooks: Bash Shell 脚本</a></li>
-<li><a href="http://redsymbol.net/articles/unofficial-bash-strict-mode/" target="_blank" rel="external">使用非官方的 Bash 严格模式 (除非你爱调试)</a></li>
-<li><a href="https://github.com/jlevy/the-art-of-command-line" target="_blank" rel="external">命令行的艺术</a></li>
-<li><a href="https://www.learnenough.com/command-line-tutorial" target="_blank" rel="external">学会成为命令行杀手</a></li>
-<li><a href="https://github.com/Idnan/bash-guide" target="_blank" rel="external">学习bash的指南</a></li>
-</ul>
-<h1 id="其它-Awesome-清单"><a href="#其它-Awesome-清单" class="headerlink" title="其它 Awesome 清单"></a>其它 Awesome 清单</h1><p>其它很棒的 awesome 清单可在 <a href="https://github.com/emijrp/awesome-awesome" target="_blank" rel="external">awesome-awesome</a> 和 <a href="https://github.com/bayandin/awesome-awesomeness" target="_blank" rel="external">awesome-awesomeness</a> 找到。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      Awesome Shell Learning Tutorial
-    
-    </summary>
-    
-      <category term="shell" scheme="http://itdevops.me/categories/shell/"/>
-    
-    
-      <category term="shell" scheme="http://itdevops.me/tags/shell/"/>
     
   </entry>
   

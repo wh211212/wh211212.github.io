@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://itdevops.me/vm-template.html</loc>
+    
+    <lastmod>2018-06-15T00:55:33.370Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://itdevops.me/ovirt-notifier-email.html</loc>
+    
+    <lastmod>2018-06-15T00:55:03.513Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://itdevops.me/ovirt-guset-agent.html</loc>
+    
+    <lastmod>2018-06-15T00:54:53.736Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://itdevops.me/about/index.html</loc>
     
     <lastmod>2018-06-15T00:41:59.703Z</lastmod>
