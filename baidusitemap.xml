@@ -4,30 +4,20 @@
 
     
   <url>
-    <loc>http://itdevops.me/vm-template.html</loc>
-    <lastmod>2018-06-15T00:55:33.370Z</lastmod>
+    <loc>http://itdevops.me/ovirt-backup-restore.html</loc>
+    <lastmod>2018-06-15T00:58:11.312Z</lastmod>
     <data>
         <display>
-        <title></title>
-        <pubTime>2018-06-15T00:55:33.370Z</pubTime>
+        <title>ovirt engine备份和迁移</title>
+        <pubTime>2018-06-15T00:54:44.622Z</pubTime>
         
+        <tag>ovirt</tag>
+         
          
            
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://itdevops.me/ovirt-notifier-email.html</loc>
-    <lastmod>2018-06-15T00:55:03.513Z</lastmod>
-    <data>
-        <display>
-        <title></title>
-        <pubTime>2018-06-15T00:55:03.512Z</pubTime>
-        
-         
-           
+             
+              <breadCrumb title="ovirt" url="http://itdevops.me/categories/ovirt/"/>
+          
         </display>
     </data>
     </url>
@@ -35,14 +25,79 @@
     
   <url>
     <loc>http://itdevops.me/ovirt-guset-agent.html</loc>
-    <lastmod>2018-06-15T00:54:53.736Z</lastmod>
+    <lastmod>2018-06-15T00:57:42.433Z</lastmod>
     <data>
         <display>
-        <title></title>
+        <title>ovirt guest agent 安装</title>
         <pubTime>2018-06-15T00:54:53.736Z</pubTime>
         
+        <tag>ovirt</tag>
+         
          
            
+             
+              <breadCrumb title="ovirt" url="http://itdevops.me/categories/ovirt/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://itdevops.me/vm-template.html</loc>
+    <lastmod>2018-06-15T00:57:23.123Z</lastmod>
+    <data>
+        <display>
+        <title>ovirt 上创建vm模板</title>
+        <pubTime>2018-06-15T00:55:33.370Z</pubTime>
+        
+        <tag>ovirt</tag>
+         
+         
+           
+             
+              <breadCrumb title="ovirt" url="http://itdevops.me/categories/ovirt/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://itdevops.me/ovirt-notifier-email.html</loc>
+    <lastmod>2018-06-15T00:57:07.255Z</lastmod>
+    <data>
+        <display>
+        <title>ovirt告警邮件设置</title>
+        <pubTime>2018-06-15T00:55:03.512Z</pubTime>
+        
+        <tag>ovirt</tag>
+         
+         
+           
+             
+              <breadCrumb title="ovirt" url="http://itdevops.me/categories/ovirt/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://itdevops.me/ovirt-use-virsh.html</loc>
+    <lastmod>2018-06-15T00:56:50.205Z</lastmod>
+    <data>
+        <display>
+        <title>ovirt节点直接使用virsh操作vm需要用户名密码</title>
+        <pubTime>2018-06-15T00:55:14.327Z</pubTime>
+        
+        <tag>ovirt</tag>
+         
+         
+           
+             
+              <breadCrumb title="ovirt" url="http://itdevops.me/categories/ovirt/"/>
+          
         </display>
     </data>
     </url>

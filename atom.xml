@@ -116,11 +116,11 @@
   </entry>
   
   <entry>
-    <title></title>
+    <title>ovirt 上创建vm模板</title>
     <link href="http://itdevops.me/vm-template.html"/>
     <id>http://itdevops.me/vm-template.html</id>
     <published>2018-06-15T00:55:33.370Z</published>
-    <updated>2018-06-15T00:55:33.370Z</updated>
+    <updated>2018-06-15T00:57:23.123Z</updated>
     
     <content type="html"><![CDATA[<h1 id="ovirt-上创建vm模板"><a href="#ovirt-上创建vm模板" class="headerlink" title="ovirt 上创建vm模板"></a>ovirt 上创建vm模板</h1><h2 id="安装初始化虚拟机CentOS7-（笔者虚机暂时只有C7，C6），后面会加入更多的镜像及vm模板"><a href="#安装初始化虚拟机CentOS7-（笔者虚机暂时只有C7，C6），后面会加入更多的镜像及vm模板" class="headerlink" title="安装初始化虚拟机CentOS7 （笔者虚机暂时只有C7，C6），后面会加入更多的镜像及vm模板"></a>安装初始化虚拟机CentOS7 （笔者虚机暂时只有C7，C6），后面会加入更多的镜像及vm模板</h2><ul>
 <li>如下如：以aniu-ecs-03为例：</li>
@@ -158,15 +158,47 @@
     
     </summary>
     
+      <category term="ovirt" scheme="http://itdevops.me/categories/ovirt/"/>
+    
+    
+      <category term="ovirt" scheme="http://itdevops.me/tags/ovirt/"/>
     
   </entry>
   
   <entry>
-    <title></title>
+    <title>ovirt节点直接使用virsh操作vm需要用户名密码</title>
+    <link href="http://itdevops.me/ovirt-use-virsh.html"/>
+    <id>http://itdevops.me/ovirt-use-virsh.html</id>
+    <published>2018-06-15T00:55:14.327Z</published>
+    <updated>2018-06-15T00:56:50.205Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="ovirt节点直接使用virsh操作vm需要用户名密码"><a href="#ovirt节点直接使用virsh操作vm需要用户名密码" class="headerlink" title="ovirt节点直接使用virsh操作vm需要用户名密码"></a>ovirt节点直接使用virsh操作vm需要用户名密码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[root@ovirt4 ~]# virsh list vdsm@ovirt</div><div class="line">error: unexpected data &apos;vdsm@ovirt&apos;</div><div class="line">[root@ovirt4 ~]# virsh list --all</div><div class="line">Please enter your authentication name: vdsm@ovirt</div><div class="line">Please enter your password: </div><div class="line"> Id    Name                           State</div><div class="line">----------------------------------------------------</div><div class="line"> 3     vm-03                          running</div><div class="line"> 5     vm-04                          running</div></pre></td></tr></table></figure>
+<h2 id="用户-vdsm-ovirt-获取"><a href="#用户-vdsm-ovirt-获取" class="headerlink" title="用户(vdsm@ovirt)获取"></a>用户(vdsm@ovirt)获取</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@ovirt3 ~]# find / -name libvirtconnection.py </div><div class="line">/usr/lib/python2.7/site-packages/vdsm/common/libvirtconnection.py</div><div class="line">[root@ovirt3 ~]# egrep vdsm@ovirt /usr/lib/python2.7/site-packages/vdsm/common/libvirtconnection.py</div><div class="line">SASL_USERNAME = &quot;vdsm@ovirt&quot;</div></pre></td></tr></table></figure>
+<h2 id="密码-shibboleth-获取"><a href="#密码-shibboleth-获取" class="headerlink" title="密码(shibboleth)获取"></a>密码(shibboleth)获取</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@ovirt3 ~]# find / -name libvirt_password          </div><div class="line">/etc/pki/vdsm/keys/libvirt_password</div><div class="line">[root@ovirt3 ~]# cat /etc/pki/vdsm/keys/libvirt_password</div><div class="line">shibboleth  #密码</div></pre></td></tr></table></figure>
+<blockquote>
+<p>备注：不建议使用：# saslpasswd2 -a libvirt admin 创建admin用户来管理vm，但可以使用</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;ovirt节点直接使用virsh操作vm需要用户名密码&quot;&gt;&lt;a href=&quot;#ovirt节点直接使用virsh操作vm需要用户名密码&quot; class=&quot;headerlink&quot; title=&quot;ovirt节点直接使用virsh操作vm需要用户名密码&quot;&gt;&lt;/a&gt;ovirt
+    
+    </summary>
+    
+      <category term="ovirt" scheme="http://itdevops.me/categories/ovirt/"/>
+    
+    
+      <category term="ovirt" scheme="http://itdevops.me/tags/ovirt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ovirt告警邮件设置</title>
     <link href="http://itdevops.me/ovirt-notifier-email.html"/>
     <id>http://itdevops.me/ovirt-notifier-email.html</id>
     <published>2018-06-15T00:55:03.512Z</published>
-    <updated>2018-06-15T00:55:03.513Z</updated>
+    <updated>2018-06-15T00:57:07.255Z</updated>
     
     <content type="html"><![CDATA[<h1 id="ovirt告警邮件设置"><a href="#ovirt告警邮件设置" class="headerlink" title="ovirt告警邮件设置"></a>ovirt告警邮件设置</h1><h2 id="启用ovirt-engine-notifier服务来根据指定是事件发出邮件通知"><a href="#启用ovirt-engine-notifier服务来根据指定是事件发出邮件通知" class="headerlink" title="启用ovirt-engine-notifier服务来根据指定是事件发出邮件通知"></a>启用ovirt-engine-notifier服务来根据指定是事件发出邮件通知</h2><ul>
 <li>配置ovirt-engine-notifier</li>
@@ -190,15 +222,19 @@
     
     </summary>
     
+      <category term="ovirt" scheme="http://itdevops.me/categories/ovirt/"/>
+    
+    
+      <category term="ovirt" scheme="http://itdevops.me/tags/ovirt/"/>
     
   </entry>
   
   <entry>
-    <title></title>
+    <title>ovirt guest agent 安装</title>
     <link href="http://itdevops.me/ovirt-guset-agent.html"/>
     <id>http://itdevops.me/ovirt-guset-agent.html</id>
     <published>2018-06-15T00:54:53.736Z</published>
-    <updated>2018-06-15T00:54:53.736Z</updated>
+    <updated>2018-06-15T00:57:42.433Z</updated>
     
     <content type="html"><![CDATA[<h1 id="ovirt-guest-agent-安装"><a href="#ovirt-guest-agent-安装" class="headerlink" title="ovirt guest agent 安装"></a>ovirt guest agent 安装</h1><h2 id="CentOS"><a href="#CentOS" class="headerlink" title="CentOS"></a>CentOS</h2><ul>
 <li>如何在CentOS中安装guest代理(CentOS7)</li>
@@ -247,6 +283,86 @@
     
     </summary>
     
+      <category term="ovirt" scheme="http://itdevops.me/categories/ovirt/"/>
+    
+    
+      <category term="ovirt" scheme="http://itdevops.me/tags/ovirt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ovirt engine备份和迁移</title>
+    <link href="http://itdevops.me/ovirt-backup-restore.html"/>
+    <id>http://itdevops.me/ovirt-backup-restore.html</id>
+    <published>2018-06-15T00:54:44.622Z</published>
+    <updated>2018-06-15T00:58:11.312Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="ovirt-engine备份和迁移"><a href="#ovirt-engine备份和迁移" class="headerlink" title="ovirt engine备份和迁移"></a>ovirt engine备份和迁移</h1><h2 id="备份ovirt-engine"><a href="#备份ovirt-engine" class="headerlink" title="备份ovirt engine"></a>备份ovirt engine</h2><ul>
+<li>使用engine-backup命令创建备份</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[root@ovirtengine ~]# engine-backup --scope=all --mode=backup --file=engine-backup.txt --log=engine-backup.log</div><div class="line">Backing up:</div><div class="line">Notifying engine</div><div class="line">- Files</div><div class="line">- Engine database &apos;engine&apos;</div><div class="line">- DWH database &apos;ovirt_engine_history&apos;</div><div class="line">Packing into file &apos;engine-backup.txt&apos;</div><div class="line">Notifying engine</div><div class="line">Done.</div></pre></td></tr></table></figure>
+<h2 id="将备份恢复到全新安装"><a href="#将备份恢复到全新安装" class="headerlink" title="将备份恢复到全新安装"></a>将备份恢复到全新安装</h2><ul>
+<li><p>FATAL: Engine service is active - can not restore backup</p>
+</li>
+<li><p>FATAL: Existing database ‘engine’ or user ‘engine’ found and temporary ones created - Please clean up everything and try again</p>
+</li>
+</ul>
+<p>[root@ovirtengine ~]# engine-backup –scope=all –mode=restore –file=engine-backup.txt –log=engine-backup.log –restore-permissions<br>Preparing to restore:</p>
+<ul>
+<li>Unpacking file ‘engine-backup.txt’<br>Restoring:</li>
+<li>Files<br>FATAL: Can’t connect to database ‘ovirt_engine_history’. Please see ‘/usr/bin/engine-backup –help’.</li>
+</ul>
+<h2 id="恢复备份以覆盖现有安装"><a href="#恢复备份以覆盖现有安装" class="headerlink" title="恢复备份以覆盖现有安装"></a>恢复备份以覆盖现有安装</h2><p>先engine-cleanup</p>
+<p>[root@ovirtengine ~]# engine-cleanup<br>[ INFO  ] Stage: Initializing<br>[ INFO  ] Stage: Environment setup<br>          Configuration files: [‘/etc/ovirt-engine-setup.conf.d/10-packaging-jboss.conf’, ‘/etc/ovirt-engine-setup.conf.d/10-packaging.conf’, ‘/etc/ovirt-engine-setup.conf.d/20-setup-ovirt-post.conf’]<br>          Log file: /var/log/ovirt-engine/setup/ovirt-engine-remove-20180411135056-qiy9rw.log<br>          Version: otopi-1.7.7 (otopi-1.7.7-1.el7.centos)<br>[ INFO  ] Stage: Environment packages setup<br>[ INFO  ] Stage: Programs detection<br>[ INFO  ] Stage: Environment customization<br>          Do you want to remove all components? (Yes, No) [Yes]:<br>[WARNING] Failed to resolve ovirtengine.aniu.so using DNS, it can be resolved only locally</p>
+<pre><code>--== PRODUCT OPTIONS ==--
+</code></pre><p>[ INFO  ] Stage: Setup validation<br>          All the installed ovirt components are about to be removed, data will be lost (OK, Cancel) [Cancel]: OK<br>[ INFO  ] Stage: Transaction setup<br>[ INFO  ] Stopping engine service<br>[ INFO  ] Stopping ovirt-fence-kdump-listener service<br>[ INFO  ] Stopping dwh service<br>[ INFO  ] Stopping Image I/O Proxy service<br>[ INFO  ] Stopping vmconsole-proxy service<br>[ INFO  ] Stopping websocket-proxy service<br>[ INFO  ] Stage: Misc configuration<br>[ INFO  ] Stage: Package installation<br>[ INFO  ] Stage: Misc configuration<br>[ INFO  ] Backing up PKI configuration and keys<br>[ INFO  ] Backing up database localhost:engine to ‘/var/lib/ovirt-engine/backups/engine-20180411135119.qeex90.dump’.<br>[ INFO  ] Clearing Engine database engine<br>[ INFO  ] Backing up database localhost:ovirt_engine_history to ‘/var/lib/ovirt-engine-dwh/backups/dwh-20180411135132.NMG9Up.dump’.<br>[ INFO  ] Clearing DWH database ovirt_engine_history<br>[ INFO  ] Removing files<br>[ INFO  ] Reverting changes to files<br>[ INFO  ] Stage: Transaction commit<br>[ INFO  ] Stage: Closing up</p>
+<pre><code>--== SUMMARY ==--
+
+Engine setup successfully cleaned up
+A backup of PKI configuration and keys is available at /var/lib/ovirt-engine/backups/engine-pki-201804111351194HN0Gw.tar.gz
+ovirt-engine has been removed
+A backup of the Engine database is available at /var/lib/ovirt-engine/backups/engine-20180411135119.qeex90.dump
+A backup of the DWH database is available at /var/lib/ovirt-engine-dwh/backups/dwh-20180411135132.NMG9Up.dump
+
+--== END OF SUMMARY ==--
+</code></pre><p>[ INFO  ] Stage: Clean up<br>          Log file is located at /var/log/ovirt-engine/setup/ovirt-engine-remove-20180411135056-qiy9rw.log<br>[ INFO  ] Generating answer file ‘/var/lib/ovirt-engine/setup/answers/20180411135137-cleanup.conf’<br>[ INFO  ] Stage: Pre-termination<br>[ INFO  ] Stage: Termination<br>[ INFO  ] Execution of cleanup completed successfully</p>
+<p>[root@ovirtengine ~]# engine-backup –scope=all –mode=restore –file=engine-backup.txt –log=engine-backup.log –restore-permissions<br>Preparing to restore:</p>
+<ul>
+<li>Unpacking file ‘engine-backup.txt’<br>Restoring:</li>
+<li>Files</li>
+<li>Engine database ‘engine’<ul>
+<li>Cleaning up temporary tables in engine database ‘engine’</li>
+<li>Updating DbJustRestored VdcOption in engine database</li>
+<li>Resetting DwhCurrentlyRunning in dwh_history_timekeeping in engine database</li>
+<li>Resetting HA VM status</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>Please note:</p>
+<p>The engine database was backed up at 2018-04-11 09:15:58.000000000 +0800 .</p>
+<p>Objects that were added, removed or changed after this date, such as virtual<br>machines, disks, etc., are missing in the engine, and will probably require</p>
+<h2 id="recovery-or-recreation"><a href="#recovery-or-recreation" class="headerlink" title="recovery or recreation."></a>recovery or recreation.</h2><ul>
+<li>DWH database ‘ovirt_engine_history’<br>You should now run engine-setup.<br>Done.</li>
+</ul>
+<p>engine-setup # 重新setup</p>
+<h2 id="使用不同的凭证恢复备份"><a href="#使用不同的凭证恢复备份" class="headerlink" title="使用不同的凭证恢复备份"></a>使用不同的凭证恢复备份</h2><h2 id="日常备份"><a href="#日常备份" class="headerlink" title="日常备份"></a>日常备份</h2><ul>
+<li>/home/wh/ovirt下：</li>
+</ul>
+<p><code>`
+engine-backup --scope=all --mode=backup --file=engine-backup-20180413.txt --log=engine-backup-20180413.log</code></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;ovirt-engine备份和迁移&quot;&gt;&lt;a href=&quot;#ovirt-engine备份和迁移&quot; class=&quot;headerlink&quot; title=&quot;ovirt engine备份和迁移&quot;&gt;&lt;/a&gt;ovirt engine备份和迁移&lt;/h1&gt;&lt;h2 id=&quot;备份ovi
+    
+    </summary>
+    
+      <category term="ovirt" scheme="http://itdevops.me/categories/ovirt/"/>
+    
+    
+      <category term="ovirt" scheme="http://itdevops.me/tags/ovirt/"/>
     
   </entry>
   
@@ -9856,31 +9972,6 @@
     
     
       <category term="svn" scheme="http://itdevops.me/tags/svn/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hello-devops</title>
-    <link href="http://itdevops.me/hello-devops.html"/>
-    <id>http://itdevops.me/hello-devops.html</id>
-    <published>2017-07-11T14:37:46.000Z</published>
-    <updated>2017-07-13T01:27:38.323Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="What-is-the-DevOps"><a href="#What-is-the-DevOps" class="headerlink" title="What is the DevOps?"></a>What is the DevOps?</h2><blockquote>
-<p>DevOps is everything for me!</p>
-</blockquote>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;What-is-the-DevOps&quot;&gt;&lt;a href=&quot;#What-is-the-DevOps&quot; class=&quot;headerlink&quot; title=&quot;What is the DevOps?&quot;&gt;&lt;/a&gt;What is the DevOps?&lt;/h2&gt;&lt;blockq
-    
-    </summary>
-    
-      <category term="devops" scheme="http://itdevops.me/categories/devops/"/>
-    
-    
-      <category term="DevOps" scheme="http://itdevops.me/tags/DevOps/"/>
     
   </entry>
   
